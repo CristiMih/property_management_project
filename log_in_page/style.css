@@ -1,0 +1,244 @@
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+body{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  padding: 1rem;
+}
+
+#content-div{
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  position: relative;
+  flex-direction: column;
+}
+
+#login-div{
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  padding-bottom: 275px;
+}
+
+#buttons-div{
+  margin: 0 auto;
+  background-color: rgb(252, 252, 252);
+  padding: 0.2rem;
+  border-radius: 2px;
+  display: flex;
+  margin-bottom: 2.7rem;
+}
+
+#buttons-div button{
+  background-color: rgb(252, 252, 252);
+  border-radius: 4px;
+  padding: 0.3em 1.3em;
+  border: none;
+  display: flex;
+  gap: 0.3em;
+  align-items: center;
+  cursor: pointer;
+  color: rgb(130, 130, 130);
+}
+
+#buttons-div button img{
+  height: 18px;
+  width: 18px;
+  filter: brightness(0) saturate(100%) invert(45%) sepia(32%) saturate(0%) hue-rotate(182deg) brightness(105%) contrast(82%);
+}
+
+#buttons-div .selected-btn{
+  border: 1px solid rgb(230, 230, 230);
+  background-color: white;
+  color: black;
+}
+
+#buttons-div .selected-btn img{
+  filter: brightness(0) saturate(100%);
+}
+
+
+#login-div input{
+  width: 100%;
+}
+
+h1{
+  font-size: clamp(2.2rem, 1.405rem + 1.196vw, 2.75rem);
+}
+
+.subtitle{
+  color:#666;
+  font-size: clamp(1rem, 0.711rem + 0.435vw, 1.2rem);
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+input{
+  border: none;
+  border-bottom: 1px solid rgb(230, 230, 230);
+  margin-bottom: 0.5rem;
+  height: 2rem;
+  font-size: clamp(0.9rem, 0.611rem + 0.435vw, 1.1rem);
+}
+
+input:nth-of-type(2){
+  margin: 1rem 0;
+}
+
+input:focus{
+  outline: none;
+}
+
+#login-btn, #google-btn{
+  border: none;
+  padding: 0.8rem 0;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: clamp(1rem, 0.711rem + 0.435vw, 1.2rem);
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+
+#login-btn{
+  background-color: black;
+  color: white;
+  margin-top: 1.5rem;
+}
+
+#login-btn:hover{
+ background-color:rgba(0, 0, 0, 0.9);
+}
+
+#login-btn:active{
+ background-color:rgba(0, 0, 0, 0.75);
+}
+
+.divider{
+  font-size: 0.8rem;
+  text-align: center;
+  margin: 1rem 0;
+  color: #a1a1a1;
+  position: relative;
+}
+
+.divider::before, .divider::after{
+  content: "";
+  width: 45%;
+  height: 1px;
+  background-color: rgb(230, 230, 230);
+  position: absolute;
+  top: 50%;
+}
+
+.divider::before{
+  left: 0;
+}
+
+.divider::after{
+  right: 0;
+}
+
+#google-btn{
+  background-color: white;
+  border: 1.5px solid rgb(230, 230, 230);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+#google-btn:hover{
+  background-color: rgb(250, 250, 250);
+}
+
+#google-btn:active{
+  opacity: 0.5;
+}
+
+#google-btn img{
+  height: 25px;
+  width: 25px;
+}
+
+#no-acc-yet{
+  position: absolute;
+  font-size: 0.9rem;
+  bottom: 1rem;
+  color:rgb(130, 130, 130);;
+}
+
+#no-acc-yet a{
+  color: black;
+}
+
+#img-div{
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+}
+
+#img-div img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.testimonial{
+  margin: 0 auto;
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  position: absolute;
+  padding: 2rem 1rem;
+  color: white;
+  bottom: 4%;
+  left: 5%;
+  right: 5%;
+}
+
+.quote{
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.author{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.carousel-div{
+  height: 30px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  right: 2%;
+  bottom: 5%;
+}
+
+.carousel-div button{
+  height: 20px;
+  width: 20px;
+  border-radius: 15px;
+  background: none;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.carousel-div button:nth-of-type(1){
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+
