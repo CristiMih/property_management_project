@@ -24,7 +24,8 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 500px;
-  padding-bottom: 275px;
+  /* padding-bottom: 275px; */
+  max-width: 382px;
 }
 
 #buttons-div{
@@ -88,7 +89,7 @@ input{
   font-size: clamp(0.9rem, 0.611rem + 0.435vw, 1.1rem);
 }
 
-input:nth-of-type(2){
+input:nth-of-type(even){
   margin: 1rem 0;
 }
 
