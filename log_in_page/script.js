@@ -73,7 +73,7 @@ function loadLoginHTML(){
     noAccParagraph.textContent = "Don't have an account yet? "
     const noAccLink = document.createElement('a');
     noAccParagraph.appendChild(noAccLink);
-    noAccLink.href = '';
+    noAccLink.href = '#';
     noAccLink.textContent = 'Sign up';
 
     const imgDiv = document.getElementById('img-div');
@@ -97,8 +97,11 @@ function loadLoginHTML(){
     carouselDiv.classList.add('carousel-div')
 
     const carouselBtn1 = document.createElement('button');
+    carouselBtn1.setAttribute('data-index', "0");
     const carouselBtn2 = document.createElement('button');
+    carouselBtn2.setAttribute('data-index', "1");
     const carouselBtn3 = document.createElement('button');
+    carouselBtn3.setAttribute('data-index', "2");
     carouselDiv.appendChild(carouselBtn1);
     carouselDiv.appendChild(carouselBtn2);
     carouselDiv.appendChild(carouselBtn3);
@@ -107,6 +110,10 @@ function loadLoginHTML(){
     imgDiv.appendChild(bgImg);
     bgImg.src = 'house.jpg';
 
+    startCarousel(quote, author);
+
+    // carouselBtn2.addEventListener('click', () => startCarousel(quote, author, 2));
+    noAccLink.addEventListener('click', () => loadSignUpHTML())
     loginPageBtn.addEventListener('click', () => loadLoginHTML());
     signUpBtn.addEventListener('click', () => loadSignUpHTML());
 }
@@ -209,9 +216,12 @@ function loadSignUpHTML(){
     testimonial.appendChild(carouselDiv);
     carouselDiv.classList.add('carousel-div');
 
-    const carouselBtn1 = document.createElement('button');
+     const carouselBtn1 = document.createElement('button');
+    carouselBtn1.setAttribute('data-index', "0");
     const carouselBtn2 = document.createElement('button');
+    carouselBtn2.setAttribute('data-index', "1");
     const carouselBtn3 = document.createElement('button');
+    carouselBtn3.setAttribute('data-index', "2");
     carouselDiv.appendChild(carouselBtn1);
     carouselDiv.appendChild(carouselBtn2);
     carouselDiv.appendChild(carouselBtn3);
@@ -220,8 +230,50 @@ function loadSignUpHTML(){
     imgDiv.appendChild(bgImg);
     bgImg.src = 'house2.jpg';
 
+    startCarousel(quote, author);
+
+    signUpBtn.addEventListener('click', () => loadLoginHTML())
     loginPageBtn.addEventListener('click', () => loadLoginHTML());
     signUpPageBtn.addEventListener('click', () => loadSignUpHTML());
 }
 
 document.addEventListener("DOMContentLoaded", () => loadLoginHTML());
+
+function startCarousel(quoteDiv, authorDiv, indexValue = 0) {
+    
+    const content = [
+    { quote: `“This app makes reporting issues so simple. I submitted a request and got a response within hours. It’s reassuring to know things won’t be ignored anymore.`, author: '- James Carter, Tenant' },
+    { quote: `“Tracking maintenance requests used to be chaotic. Now everything’s organized, transparent, and easy to follow. It’s made my job smoother and tenants happier.”`, author: `- Linda Nguyen, Property Manager` },
+    { quote: `“I finally have visibility into what’s happening across my properties. The tracker helps me prioritize repairs and keep everyone informed. It’s a game changer for property management.”`, author: '- Robert Evans, Landlord' }
+  ];
+
+  const buttons = document.querySelectorAll('.carousel-div button');
+
+  let index = indexValue;
+  quoteDiv.textContent = content[index].quote;
+  authorDiv.textContent = content[index].author;
+
+  buttons.forEach((button) => {
+        const buttonIndex = Number(button.dataset.index);
+        buttonIndex === index ? button.classList.add('active-btn') : button.classList.remove('active-btn'); 
+    });
+
+
+  setInterval(() => {
+    if (index >= content.length) {
+      index = 0;
+    }
+
+    const element = content[index];
+    quoteDiv.textContent = element.quote;
+    authorDiv.textContent = element.author;
+
+    buttons.forEach((button) => {
+        const buttonIndex = Number(button.dataset.index);
+        buttonIndex === index ? button.classList.add('active-btn') : button.classList.remove('active-btn'); 
+    });
+
+    
+    index++;
+  }, 3000);
+}
