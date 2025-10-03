@@ -207,7 +207,7 @@ function loadSignUpHTML(){
 
     const carouselDiv = document.createElement('div');
     testimonial.appendChild(carouselDiv);
-    carouselDiv.classList.add('carousel-div')
+    carouselDiv.classList.add('carousel-div');
 
     const carouselBtn1 = document.createElement('button');
     const carouselBtn2 = document.createElement('button');

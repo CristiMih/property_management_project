@@ -198,8 +198,12 @@ td:last-of-type{
   text-align: center;
 }
 
-td:last-of-type{
+.portfolio-action{
   padding-left: 85px;
+}
+
+.user-action{
+  padding-left: 50px;
 }
 
 .action-row button:first-of-type,
@@ -219,6 +223,12 @@ td:last-of-type{
   opacity: 0.6;
 }
 
+.action-row button:last-of-type{
+  background-color: white;
+  border: 1px solid rgb(231, 232, 236);
+  color: black;
+}
+
 .action-row button:first-of-type{
   background-color: black;
   border: 1px solid black;
@@ -226,11 +236,7 @@ td:last-of-type{
   margin-right: 5px;
 }
 
-.action-row button:last-of-type{
-  background-color: white;
-  border: 1px solid rgb(231, 232, 236);
-  color: black;
-}
+
 
 
 
