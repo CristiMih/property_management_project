@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/styles/general_style.css">
+  <link rel="stylesheet" href="/styles/nav_style.css">
+  <link rel="stylesheet" href="/styles/content_area_style.css">
 </head>
 <body>
   <div class="dash-board">
     <nav>
     <div class="logo-div">
-      <img src="logo.png" alt="">
+      <img src="/icons/logo.png" alt="">
     </div>
     <div class="menu-div">
       <h2>MENU</h2>
@@ -33,7 +35,7 @@
      <div class="profile-div">
         <div>
           <div>
-          <img src="pfp.jpg" alt="">
+          <img src="icons/pfp.jpg" alt="">
           </div>
           <div>
             <p>Theresa Webb</p>
@@ -42,14 +44,58 @@
         </div>
         
         <div>
-          <img src="logout.png" alt="">
+          <img src="icons/logout.png" alt="">
         </div>
       </div>
 
    
     </nav>
     <div class="content-area">
-
+      <div>
+        <h1>Portfolio</h1>
+        <div>
+          <button>
+            <div class="circle-plus">+</div>
+            Add Property
+          </button>
+        </div>
+      </div>
+      <div id="table-div">
+        <div>
+          <h2>Unit</h2>
+          <div class="wrapper">
+            <img src="icons/magnifyer.svg" alt="">
+            <input type="text" placeholder="Search properties">
+          </div>
+          
+        </div>
+        
+        <table>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th class="priority-column">Priority</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>
+              <p>Boardman Main House</p>
+              <p>123 3rd St NE, Boardman, 97818, US</p>
+            </td>
+            <td>Studio</td>
+            <td class="priority-column">
+                <div class="priority high">
+                  <span class="circle-status"></span>
+                  High
+                </div>
+            </td>
+            <td class="action-row">
+              <button>Requests</button>
+              <button>Edit</button>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
   
