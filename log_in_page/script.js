@@ -45,7 +45,7 @@ function loadLoginHTML(){
 
     const passInput = document.createElement('input');
     inputDiv.appendChild(passInput);
-    passInput.type = 'text';
+    passInput.type = 'password';
     passInput.placeholder = 'Password'
 
     const loginBtn = document.createElement('button');
@@ -113,6 +113,7 @@ function loadLoginHTML(){
     startCarousel(quote, author);
 
     // carouselBtn2.addEventListener('click', () => startCarousel(quote, author, 2));
+    loginBtn.addEventListener('click', () => window.location.href = "../dashboard/index.html")
     noAccLink.addEventListener('click', () => loadSignUpHTML())
     loginPageBtn.addEventListener('click', () => loadLoginHTML());
     signUpBtn.addEventListener('click', () => loadSignUpHTML());
@@ -169,12 +170,12 @@ function loadSignUpHTML(){
 
     const emailInput = document.createElement('input');
     inputDiv.appendChild(emailInput);
-    emailInput.type = 'text';
+    emailInput.type = 'email';
     emailInput.placeholder = 'Email';
 
     const passInput = document.createElement('input');
     inputDiv.appendChild(passInput);
-    passInput.type = 'text';
+    passInput.type = 'password';
     passInput.placeholder = 'Password';
 
     const signUpBtn = document.createElement('button');
@@ -241,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => loadLoginHTML());
 
 function startCarousel(quoteDiv, authorDiv, indexValue = 0) {
     
-    const content = [
+  const content = [
     { quote: `“This app makes reporting issues so simple. I submitted a request and got a response within hours. It’s reassuring to know things won’t be ignored anymore.`, author: '- James Carter, Tenant' },
     { quote: `“Tracking maintenance requests used to be chaotic. Now everything’s organized, transparent, and easy to follow. It’s made my job smoother and tenants happier.”`, author: `- Linda Nguyen, Property Manager` },
     { quote: `“I finally have visibility into what’s happening across my properties. The tracker helps me prioritize repairs and keep everyone informed. It’s a game changer for property management.”`, author: '- Robert Evans, Landlord' }
@@ -275,5 +276,5 @@ function startCarousel(quoteDiv, authorDiv, indexValue = 0) {
 
     
     index++;
-  }, 3000);
+  }, 4000);
 }
