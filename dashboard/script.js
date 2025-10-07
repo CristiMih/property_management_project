@@ -1,3 +1,4 @@
+let admin = true;
 function generateUsersUI(){
   const menuBtn = document.querySelector('.active');
   menuBtn.textContent = "Users";
@@ -41,25 +42,33 @@ function generateUsersUI(){
   talbeRow.appendChild(actionTh);
   actionTh.textContent = 'Action';
 
-  generateUsers(table, "username", "name", "email", "password");
-
-  generateUsers(table, "aaa", "sss", "ddd", "fff");
-
+  generateUsers(table, "jdoe", "John Doe", "jdoe@example.com", "pass1234");
+  generateUsers(table, "amaria", "Ana Maria Popescu", "	ana.maria@email.com", "securePass");
 
 }
 
 function generatePortfolioUI(){
-  const admin = true;
-  const table = document.querySelector('table');
+  // const admin = false;
+  let table;
+  if(admin){
+    table = document.querySelector('table');
+  } else {
+    table = document.createElement('table');
+  }
+ 
   table.innerHTML = "";
   const menuBtn = document.querySelector('.active');
   menuBtn.textContent = "Portfolio";
+
+  const addBtn = document.getElementById('add-btn');
+  if(admin){
+    addBtn.innerHTML = `<div class="circle-plus">+</div> Add Property`
+  } else{
+    addBtn.style.visibility = 'hidden';
+  }
   
   const h1 = document.querySelector('h1');
   h1.textContent = 'Portfolio';
-
-  const addBtn = document.getElementById('add-btn');
-  addBtn.innerHTML = `<div class="circle-plus">+</div> Add Property`
 
   const h2 = document.querySelector('.content-area h2');
   h2.textContent = 'Units';
@@ -90,13 +99,13 @@ function generatePortfolioUI(){
   talbeRow.appendChild(actionTh);
   actionTh.textContent = 'Action';
   
-  generateProperty(table, 'aaaa', 'zzzzzzzzzzzzzz', 'studio', 'high');
-  generateProperty(table, 'bbbb', 'zzzzzzzzzzzzzz', 'duplex', 'medium');
-  generateProperty(table, 'cccc', 'zzzzzzzzzzzzzz', 'house', 'low');
+  generateProperty(table, 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Residential', 'high');
+  generateProperty(table, 'Central Tower', '500 Market St, San Francisco, CA 94105', 'Commercial', 'medium');
+  generateProperty(table, 'Green Cottage', '88 Pine Hollow Ln, Asheville, NC 28803', 'Residential', 'low');
 }
 
 function generateRequestsUI(){
-  const admin = true;
+  // const admin = false;
   const table = document.querySelector('table');
   table.innerHTML = "";
   
@@ -104,10 +113,11 @@ function generateRequestsUI(){
   h1.textContent = 'Requests';
 
   const addBtn = document.getElementById('add-btn');
+  addBtn.style.visibility = 'visible';
   addBtn.innerHTML = `<div class="circle-plus">+</div> Add Request`
 
   const h2 = document.querySelector('.content-area h2');
-  h2.textContent = 'Tickets';
+  h2.textContent = 'Tickets - Magnolia Villa';
 
   const input = document.querySelector('input');
   input.placeholder = "Search Tickets";
@@ -143,7 +153,9 @@ function generateRequestsUI(){
   talbeRow.appendChild(actionTh);
   actionTh.textContent = 'Action';
 
-  generateRequests(table, 'subject', 'propertyName', 'adress', 'description', "high", 'solved')
+  generateRequests(table, admin,'No hot water', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "high", 'unsolved');
+  generateRequests(table, admin,'Locked entrance', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', `Main door won't open`, "high", 'unsolved');
+  generateRequests(table, admin,'Broken light bulb', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "low", 'unsolved');
 }
 
 
@@ -225,11 +237,14 @@ function generateProperty(parent, propertyName, adress, type, priority){
   actionTd.classList.add('action-row');
   actionTd.classList.add('portfolio-action')
   const requestbutton = document.createElement('button');
-  const editbutton = document.createElement('button');
   actionTd.appendChild(requestbutton);
-  actionTd.appendChild(editbutton);
-  requestbutton.textContent = "Portfolio";
-  editbutton.textContent = "Edit";
+  requestbutton.textContent = "Tickets";
+  if(admin){
+    const editbutton = document.createElement('button');
+    actionTd.appendChild(editbutton);
+     editbutton.textContent = "Edit";
+  }
+ 
 
   requestbutton.addEventListener('click', () => generateRequestsUI());
 
@@ -237,7 +252,7 @@ function generateProperty(parent, propertyName, adress, type, priority){
 }
 
 
-function generateRequests(parent, subject, propertyName, adress, description, priority, status){
+function generateRequests(parent,admin, subject, propertyName, adress, description, priority, status){
   const tr = document.createElement("tr");
   parent.appendChild(tr);
 
@@ -288,13 +303,27 @@ function generateRequests(parent, subject, propertyName, adress, description, pr
   tr.appendChild(actionTd);
   actionTd.classList.add('action-row');
   actionTd.classList.add('portfolio-action')
-  const checkButton = document.createElement('button');
+
   const editbutton = document.createElement('button');
-  actionTd.appendChild(checkButton);
+   if(admin){
+    const checkButton = document.createElement('button');
+    actionTd.appendChild(checkButton);
+    checkButton.textContent = "Solve";
+  }
   actionTd.appendChild(editbutton);
-  checkButton.textContent = "Solve";
   editbutton.textContent = "Edit";
+
+ 
 
   return tr;
 }
-generateUsersUI();
+
+if(admin){
+  generateUsersUI();
+  
+}else{
+  generatePortfolioUI();
+}
+
+const logoutIcon = document.getElementById('logout-icon');
+logoutIcon.addEventListener('click', () => window.location.href = "../log_in_page/index.html")
