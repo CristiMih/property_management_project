@@ -1,3 +1,8 @@
+const authorDiv = document.querySelector('.author');
+const quoteDiv = document.querySelector('.quote');
+document.addEventListener("DOMContentLoaded", () => loadLoginHTML());
+document.addEventListener("DOMContentLoaded", () => startCarousel(quoteDiv, authorDiv));
+
 function loadLoginHTML(){
     const contentDiv = document.getElementById('content-div');
     contentDiv.innerHTML = "";
@@ -77,40 +82,40 @@ function loadLoginHTML(){
     noAccLink.textContent = 'Sign up';
 
     const imgDiv = document.getElementById('img-div');
-    imgDiv.innerHTML = "";
-    const testimonial = document.createElement('div');
-    imgDiv.appendChild(testimonial);
-    testimonial.classList.add('testimonial');
+    // imgDiv.innerHTML = "";
+    // const testimonial = document.createElement('div');
+    // imgDiv.appendChild(testimonial);
+    // testimonial.classList.add('testimonial');
 
-    const quote = document.createElement('p')
-    testimonial.appendChild(quote);
-    quote.classList.add('quote');
-    quote.textContent = '"Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam velit ipsam corrupti, commodi earum modi aliquid architecto voluptate nisi eveniet eius tenetur quasi aperiam facere quas qui, ipsa id quod?"';
+    // const quote = document.createElement('p')
+    // testimonial.appendChild(quote);
+    // quote.classList.add('quote');
+    // quote.textContent = '"Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam velit ipsam corrupti, commodi earum modi aliquid architecto voluptate nisi eveniet eius tenetur quasi aperiam facere quas qui, ipsa id quod?"';
 
-    const author = document.createElement('p')
-    testimonial.appendChild(author);
-    author.classList.add('author');
-    author.textContent = 'Lorem, ipsum.';
+    // const author = document.createElement('p')
+    // testimonial.appendChild(author);
+    // author.classList.add('author');
+    // author.textContent = 'Lorem, ipsum.';
 
-    const carouselDiv = document.createElement('div');
-    testimonial.appendChild(carouselDiv);
-    carouselDiv.classList.add('carousel-div')
+    // const carouselDiv = document.createElement('div');
+    // testimonial.appendChild(carouselDiv);
+    // carouselDiv.classList.add('carousel-div')
 
-    const carouselBtn1 = document.createElement('button');
-    carouselBtn1.setAttribute('data-index', "0");
-    const carouselBtn2 = document.createElement('button');
-    carouselBtn2.setAttribute('data-index', "1");
-    const carouselBtn3 = document.createElement('button');
-    carouselBtn3.setAttribute('data-index', "2");
-    carouselDiv.appendChild(carouselBtn1);
-    carouselDiv.appendChild(carouselBtn2);
-    carouselDiv.appendChild(carouselBtn3);
+    // const carouselBtn1 = document.createElement('button');
+    // carouselBtn1.setAttribute('data-index', "0");
+    // const carouselBtn2 = document.createElement('button');
+    // carouselBtn2.setAttribute('data-index', "1");
+    // const carouselBtn3 = document.createElement('button');
+    // carouselBtn3.setAttribute('data-index', "2");
+    // carouselDiv.appendChild(carouselBtn1);
+    // carouselDiv.appendChild(carouselBtn2);
+    // carouselDiv.appendChild(carouselBtn3);
 
-    const bgImg = document.createElement('img');
-    imgDiv.appendChild(bgImg);
-    bgImg.src = 'house.jpg';
+     const bgImg = document.getElementById('bg-img');
+    // imgDiv.appendChild(bgImg);
+     bgImg.src = 'house.jpg';
 
-    startCarousel(quote, author);
+    // startCarousel(quote, author);
 
     // carouselBtn2.addEventListener('click', () => startCarousel(quote, author, 2));
     loginBtn.addEventListener('click', () => window.location.href = "../dashboard/index.html")
@@ -197,48 +202,48 @@ function loadSignUpHTML(){
     googleIcon.src = 'icons/google.svg';
     googleIcon.alt = 'Google Icon';
 
-    const imgDiv = document.getElementById('img-div');
-    imgDiv.innerHTML = "";
-    const testimonial = document.createElement('div');
-    imgDiv.appendChild(testimonial);
-    testimonial.classList.add('testimonial');
+    // const imgDiv = document.getElementById('img-div');
+    // imgDiv.innerHTML = "";
+    // const testimonial = document.createElement('div');
+    // imgDiv.appendChild(testimonial);
+    // testimonial.classList.add('testimonial');
 
-    const quote = document.createElement('p')
-    testimonial.appendChild(quote);
-    quote.classList.add('quote');
-    quote.textContent = '"Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam velit ipsam corrupti, commodi earum modi aliquid architecto voluptate nisi eveniet eius tenetur quasi aperiam facere quas qui, ipsa id quod?"';
+    // const quote = document.createElement('p')
+    // testimonial.appendChild(quote);
+    // quote.classList.add('quote');
+    // quote.textContent = '"Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam velit ipsam corrupti, commodi earum modi aliquid architecto voluptate nisi eveniet eius tenetur quasi aperiam facere quas qui, ipsa id quod?"';
 
-    const author = document.createElement('p')
-    testimonial.appendChild(author);
-    author.classList.add('author');
-    author.textContent = 'Lorem, ipsum.';
+    // const author = document.createElement('p')
+    // testimonial.appendChild(author);
+    // author.classList.add('author');
+    // author.textContent = 'Lorem, ipsum.';
 
-    const carouselDiv = document.createElement('div');
-    testimonial.appendChild(carouselDiv);
-    carouselDiv.classList.add('carousel-div');
+    // const carouselDiv = document.createElement('div');
+    // testimonial.appendChild(carouselDiv);
+    // carouselDiv.classList.add('carousel-div');
 
-     const carouselBtn1 = document.createElement('button');
-    carouselBtn1.setAttribute('data-index', "0");
-    const carouselBtn2 = document.createElement('button');
-    carouselBtn2.setAttribute('data-index', "1");
-    const carouselBtn3 = document.createElement('button');
-    carouselBtn3.setAttribute('data-index', "2");
-    carouselDiv.appendChild(carouselBtn1);
-    carouselDiv.appendChild(carouselBtn2);
-    carouselDiv.appendChild(carouselBtn3);
+    // const carouselBtn1 = document.createElement('button');
+    // carouselBtn1.setAttribute('data-index', "0");
+    // const carouselBtn2 = document.createElement('button');
+    // carouselBtn2.setAttribute('data-index', "1");
+    // const carouselBtn3 = document.createElement('button');
+    // carouselBtn3.setAttribute('data-index', "2");
+    // carouselDiv.appendChild(carouselBtn1);
+    // carouselDiv.appendChild(carouselBtn2);
+    // carouselDiv.appendChild(carouselBtn3);
 
-    const bgImg = document.createElement('img');
-    imgDiv.appendChild(bgImg);
-    bgImg.src = 'house2.jpg';
+     const bgImg = document.getElementById('bg-img');
+    // imgDiv.appendChild(bgImg);
+     bgImg.src = 'house2.jpg';
 
-    startCarousel(quote, author);
+    // startCarousel(quote, author);
 
     signUpBtn.addEventListener('click', () => loadLoginHTML())
     loginPageBtn.addEventListener('click', () => loadLoginHTML());
     signUpPageBtn.addEventListener('click', () => loadSignUpHTML());
 }
 
-document.addEventListener("DOMContentLoaded", () => loadLoginHTML());
+
 
 function startCarousel(quoteDiv, authorDiv, indexValue = 0) {
     
