@@ -52,12 +52,14 @@
    
     </nav>
     <div class="content-area">
-      <div>
+      <span class="go-back-div">
+        <!-- <button class="go-back">Go back</button> -->
+      </span>
+   
+      <div id="content-header">
         <h1></h1>
-        <div>
-          <button id="add-btn">
-            
-          </button>
+        <div id="btn-div">
+        
         </div>
       </div>
       <div id="table-div">
@@ -70,8 +72,8 @@
           
         </div>
         
-        <!-- <table>
-          <tr>
+        <table>
+          <!-- <tr>
             <th>Property</th>
             <th>Type</th>
             <th class="priority-column">Priority</th>
@@ -93,10 +95,114 @@
               <button>Requests</button>
               <button>Edit</button>
             </td>
-          </tr>
-        </table> -->
+          </tr> -->
+        </table>
       </div>
     </div>
+
+    <dialog id="user-modal">
+        <div id="user-close-modal" class="close-modal">X</div>
+        <h1>Admin Panel: Add User</h1>
+        <h2>Use this form to register a new user in the system.</h2>
+        <div class="input-div">
+            <div>
+                <label for="">Username:</label>
+                <input type="text">
+            </div>
+
+            <div>
+                <label for="">Full name:</label>
+                <input type="text">
+            </div>
+
+            <div>
+                <label for="">Email:</label>
+                <input type="text">
+            </div>
+
+            <div>
+                 <label for="">Password:</label>
+                 <input type="text">
+            </div>
+        </div>
+        <div class="button-div">
+            <button id="submit-modal">Register User</button>
+        </div>
+ 
+    </dialog>
+
+    <dialog id="property-modal">
+        <div id="property-close-modal" class="close-modal">X</div>
+        <h1>Admin Panel: Add Property</h1>
+        <h2>Use this form to add a new property in the system.</h2>
+        <div class="input-div">
+            <div>
+                <label for="">Property name:</label>
+                <input type="text">
+            </div>
+
+            <div>
+                <label for="">Adress:</label>
+                <input type="text">
+            </div>
+
+            <div>
+                <label for="">Type:</label>
+                <input type="text">
+            </div>
+
+            <div>
+                 <label for="">Priority</label>
+                 <select name="" id="priority">
+                    <option value="">High</option>
+                    <option value="">Medium</option>
+                    <option value="">Low</option>
+                 </select>
+            </div>
+        </div>
+        <div class="button-div">
+            <button id="submit-modal">Add property</button>
+        </div>
+ 
+    </dialog>
+
+    <dialog id="tickets-modal">
+        <div id="tickets-close-modal" class="close-modal">X</div>
+        <h1>Admin Panel: Add Ticket</h1>
+        <h2>Use this form to add new tickets</h2>
+        <div class="input-div">
+            <div>
+              <label for="">Subject:</label>
+              <input type="text">
+            </div>
+
+            <div>
+              <label for="">Description:</label>
+              <input type="text">
+            </div>
+
+            <div>
+              <label for="">Priority:</label>
+              <select name="" id="priority">
+                  <option value="">High</option>
+                  <option value="">Medium</option>
+                  <option value="">Low</option>
+                </select>
+            </div>
+
+            <div>
+              <label for="">Description:</label>
+              <select name="" id="priority">
+                <option value="">Solved</option>
+                <option value="">Unsolved</option>
+              </select>
+            </div>
+        </div>
+        <div class="button-div">
+            <button id="submit-modal">Add Request</button>
+        </div>
+ 
+    </dialog>
   </div>
   
 </body>

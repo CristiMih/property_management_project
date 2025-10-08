@@ -3,10 +3,17 @@ function generateUsersUI(){
   const menuBtn = document.querySelector('.active');
   menuBtn.textContent = "Users";
   
+  const goBackBtnDiv = document.querySelector('.go-back-div');
+  goBackBtnDiv.innerHTML = "";
+
   const h1 = document.querySelector('h1');
   h1.textContent = 'Users';
 
-  const addBtn = document.getElementById('add-btn');
+  const btnDiv = document.getElementById('btn-div');
+  btnDiv.innerHTML = "";
+  const addBtn = document.createElement('button');
+  btnDiv.appendChild(addBtn);
+  addBtn.id = "add-btn";
   addBtn.innerHTML = `<div class="circle-plus">+</div> Add User`
 
   const h2 = document.querySelector('.content-area h2');
@@ -16,8 +23,8 @@ function generateUsersUI(){
   input.placeholder = "Search users";
 
   const tableDiv = document.getElementById('table-div');
-  const table = document.createElement('table');
-  tableDiv.appendChild(table);
+  const table = document.querySelector('table');
+  table.innerHTML = "";
   
   const talbeRow = document.createElement('tr');
   table.appendChild(talbeRow);
@@ -41,6 +48,11 @@ function generateUsersUI(){
   const actionTh = document.createElement('th');
   talbeRow.appendChild(actionTh);
   actionTh.textContent = 'Action';
+  const closeBtn = document.getElementById('user-close-modal');
+  const modal = document.getElementById('user-modal');
+
+  addBtn.addEventListener('click', () => modal.showModal());
+  closeBtn.addEventListener('click', () => modal.close());
 
   generateUsers(table, "jdoe", "John Doe", "jdoe@example.com", "pass1234");
   generateUsers(table, "amaria", "Ana Maria Popescu", "	ana.maria@email.com", "securePass");
@@ -50,17 +62,29 @@ function generateUsersUI(){
 function generatePortfolioUI(){
   // const admin = false;
   let table;
+  let contentArea = document.querySelector('.content-area');
+  const backButton = document.createElement('button');
+  const backButtonDiv = document.querySelector('.go-back-div');
+  backButtonDiv.innerHTML = "";
   if(admin){
     table = document.querySelector('table');
+    contentArea.appendChild(backButton);
+    backButtonDiv.appendChild(backButton);
+    backButton.innerText = "Go back"
+    backButton.classList.add('go-back');
   } else {
-    table = document.createElement('table');
+    table = document.querySelector('table');
   }
  
   table.innerHTML = "";
   const menuBtn = document.querySelector('.active');
   menuBtn.textContent = "Portfolio";
 
-  const addBtn = document.getElementById('add-btn');
+  const btnDiv = document.getElementById('btn-div');
+  btnDiv.innerHTML = "";
+  const addBtn = document.createElement('button');
+  btnDiv.appendChild(addBtn);
+  addBtn.id = "add-btn";
   if(admin){
     addBtn.innerHTML = `<div class="circle-plus">+</div> Add Property`
   } else{
@@ -98,7 +122,13 @@ function generatePortfolioUI(){
   const actionTh = document.createElement('th');
   talbeRow.appendChild(actionTh);
   actionTh.textContent = 'Action';
+
+  const modal = document.getElementById('property-modal');
+  const closeBtn = document.getElementById('property-close-modal');
   
+  addBtn.addEventListener('click', () => modal.showModal());
+  closeBtn.addEventListener('click', () => modal.close());
+  backButton.addEventListener('click', () => generateUsersUI());
   generateProperty(table, 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Residential', 'high');
   generateProperty(table, 'Central Tower', '500 Market St, San Francisco, CA 94105', 'Commercial', 'medium');
   generateProperty(table, 'Green Cottage', '88 Pine Hollow Ln, Asheville, NC 28803', 'Residential', 'low');
@@ -109,11 +139,21 @@ function generateRequestsUI(){
   const table = document.querySelector('table');
   table.innerHTML = "";
   
+  const backButton = document.createElement('button');
+  const backButtonDiv = document.querySelector('.go-back-div');
+  backButtonDiv.innerHTML = "";
+  backButtonDiv.appendChild(backButton);
+  backButton.innerText = "Go back"
+  backButton.classList.add('go-back');
+
   const h1 = document.querySelector('h1');
   h1.textContent = 'Requests';
 
-  const addBtn = document.getElementById('add-btn');
-  addBtn.style.visibility = 'visible';
+  const btnDiv = document.getElementById('btn-div');
+  btnDiv.innerHTML = "";
+  const addBtn = document.createElement('button');
+  btnDiv.appendChild(addBtn);
+  addBtn.id = "add-btn";
   addBtn.innerHTML = `<div class="circle-plus">+</div> Add Request`
 
   const h2 = document.querySelector('.content-area h2');
@@ -152,6 +192,13 @@ function generateRequestsUI(){
   const actionTh = document.createElement('th');
   talbeRow.appendChild(actionTh);
   actionTh.textContent = 'Action';
+
+  const modal = document.getElementById('tickets-modal');
+  const closeBtn = document.getElementById('tickets-close-modal');
+  addBtn.addEventListener('click', () => modal.showModal());
+  closeBtn.addEventListener('click', () => modal.close());
+  backButton.addEventListener('click', () => generatePortfolioUI());
+
 
   generateRequests(table, admin,'No hot water', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "high", 'unsolved');
   generateRequests(table, admin,'Locked entrance', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', `Main door won't open`, "high", 'unsolved');
@@ -239,11 +286,11 @@ function generateProperty(parent, propertyName, adress, type, priority){
   const requestbutton = document.createElement('button');
   actionTd.appendChild(requestbutton);
   requestbutton.textContent = "Tickets";
-  if(admin){
-    const editbutton = document.createElement('button');
-    actionTd.appendChild(editbutton);
-     editbutton.textContent = "Edit";
-  }
+  // if(admin){
+  //   const editbutton = document.createElement('button');
+  //   actionTd.appendChild(editbutton);
+  //    editbutton.textContent = "Edit";
+  // }
  
 
   requestbutton.addEventListener('click', () => generateRequestsUI());
@@ -302,14 +349,13 @@ function generateRequests(parent,admin, subject, propertyName, adress, descripti
   const actionTd = document.createElement('td');
   tr.appendChild(actionTd);
   actionTd.classList.add('action-row');
-  actionTd.classList.add('portfolio-action')
+  actionTd.classList.add('request-action');
 
   const editbutton = document.createElement('button');
-   if(admin){
-    const checkButton = document.createElement('button');
-    actionTd.appendChild(checkButton);
-    checkButton.textContent = "Solve";
-  }
+  const checkButton = document.createElement('button');
+  actionTd.appendChild(checkButton);
+  checkButton.textContent = "Solve";
+  
   actionTd.appendChild(editbutton);
   editbutton.textContent = "Edit";
 
@@ -326,4 +372,5 @@ if(admin){
 }
 
 const logoutIcon = document.getElementById('logout-icon');
-logoutIcon.addEventListener('click', () => window.location.href = "../log_in_page/index.html")
+logoutIcon.addEventListener('click', () => window.location.href = "../log_in_page/index.html");
+

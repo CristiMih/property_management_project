@@ -1,10 +1,12 @@
 .content-area{
   background-color: #fff;
-  /* height: 100vh; */
+  height: 100vh;
   border-radius: 15px;
   flex: 1;
   padding: 1.5rem;
+  padding-top: 2rem;
   border: 1px solid rgb(231, 232, 236);
+  position: relative;
 }
 
 .content-area > div:nth-of-type(1), #table-div > div:nth-of-type(1){
@@ -41,6 +43,26 @@ h1{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.go-back{
+  background: none;
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  border: none;
+  cursor: pointer;
+  color: #7A7B7D;
+  font-size: 12px;
+}
+
+.go-back::before{
+  content: "←";
+  height: 12px;
+  width: 12px;
+  position: absolute;
+  left: -15px;
+  top: -1.5px;
 }
 
 #table-div > div:nth-of-type(1){
@@ -198,13 +220,18 @@ td:last-of-type{
   text-align: center;
 }
 
-.portfolio-action{
-  padding-left: 85px;
-}
-
 .user-action{
   padding-left: 50px;
 }
+
+.portfolio-action{
+  padding-left: 40px;
+}
+
+.request-action{
+  padding-left: 10px;
+}
+
 
 .action-row button:first-of-type,
 .action-row button:last-of-type{
