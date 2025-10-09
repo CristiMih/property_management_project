@@ -1,4 +1,7 @@
-let admin = true;
+const currentUser = JSON.parse(sessionStorage.getItem("loggedUser"));
+console.log(currentUser.admin);
+
+
 function generateUsersUI(){
   const menuBtn = document.querySelector('.active');
   menuBtn.textContent = "Users";
@@ -59,7 +62,7 @@ function generateUsersUI(){
 
 }
 
-function generatePortfolioUI(){
+function generatePortfolioUI(admin){
   // const admin = false;
   let table;
   let contentArea = document.querySelector('.content-area');
@@ -128,7 +131,7 @@ function generatePortfolioUI(){
   
   addBtn.addEventListener('click', () => modal.showModal());
   closeBtn.addEventListener('click', () => modal.close());
-  backButton.addEventListener('click', () => generateUsersUI());
+  backButton.addEventListener('click', () => generateUsersUI(currentUser.admin));
   generateProperty(table, 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Residential', 'high');
   generateProperty(table, 'Central Tower', '500 Market St, San Francisco, CA 94105', 'Commercial', 'medium');
   generateProperty(table, 'Green Cottage', '88 Pine Hollow Ln, Asheville, NC 28803', 'Residential', 'low');
@@ -197,12 +200,12 @@ function generateRequestsUI(){
   const closeBtn = document.getElementById('tickets-close-modal');
   addBtn.addEventListener('click', () => modal.showModal());
   closeBtn.addEventListener('click', () => modal.close());
-  backButton.addEventListener('click', () => generatePortfolioUI());
+  backButton.addEventListener('click', () => generatePortfolioUI(currentUser.admin));
 
 
-  generateRequests(table, admin,'No hot water', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "high", 'unsolved');
-  generateRequests(table, admin,'Locked entrance', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', `Main door won't open`, "high", 'unsolved');
-  generateRequests(table, admin,'Broken light bulb', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "low", 'unsolved');
+  generateRequests(table,'No hot water', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "high", 'unsolved');
+  generateRequests(table,'Locked entrance', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', `Main door won't open`, "high", 'unsolved');
+  generateRequests(table,'Broken light bulb', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "low", 'unsolved');
 }
 
 
@@ -235,7 +238,7 @@ function generateUsers(parent, username, name, email, password){
   actionTd.appendChild(button);
   button.textContent = "Portfolio";
 
-  button.addEventListener('click', () => generatePortfolioUI())
+  button.addEventListener('click', () => generatePortfolioUI(currentUser.admin))
 
   return tr;
 }
@@ -299,7 +302,7 @@ function generateProperty(parent, propertyName, adress, type, priority){
 }
 
 
-function generateRequests(parent,admin, subject, propertyName, adress, description, priority, status){
+function generateRequests(parent, subject, propertyName, adress, description, priority, status){
   const tr = document.createElement("tr");
   parent.appendChild(tr);
 
@@ -368,11 +371,11 @@ function generateRequests(parent,admin, subject, propertyName, adress, descripti
   return tr;
 }
 
-if(admin){
-  generateUsersUI();
+if(currentUser.admin){
+  generateUsersUI(currentUser.admin);
   
 }else{
-  generatePortfolioUI();
+  generatePortfolioUI(currentUser.admin);
 }
 
 const logoutIcon = document.getElementById('logout-icon');

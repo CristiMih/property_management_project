@@ -118,7 +118,7 @@ function loadLoginHTML(){
     // startCarousel(quote, author);
 
     // carouselBtn2.addEventListener('click', () => startCarousel(quote, author, 2));
-    loginBtn.addEventListener('click', () => window.location.href = "../dashboard/index.html")
+    loginBtn.addEventListener('click', () => logIn(userInput.value, passInput.value));
     noAccLink.addEventListener('click', () => loadSignUpHTML())
     loginPageBtn.addEventListener('click', () => loadLoginHTML());
     signUpBtn.addEventListener('click', () => loadSignUpHTML());
@@ -260,7 +260,7 @@ function createUser(name, user, email, password){
     user,
     email,
     password,
-    admin: true,
+    admin: false,
     id: crypto.randomUUID().slice(0, 8)
     }
     
@@ -289,4 +289,26 @@ function validateUser(email){
   }
   return valid;
   
+}
+
+function logIn(username, password){
+  fetch("http://127.0.0.1:3000/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      username: username,
+      password: password
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success){
+        alert(JSON.stringify(data.message));
+        sessionStorage.setItem("loggedUser", JSON.stringify(data.user));
+        window.location.href = "../dashboard/index.html";
+      } else{
+        alert("Logare esuata: " + data.message);
+      }
+    })
+    .catch(err => alert("Eroare la logare: " + err))
 }

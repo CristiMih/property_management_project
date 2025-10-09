@@ -46,16 +46,32 @@ app.post("/createUser", (req, res) => {
     id: content.id
   };
 
-  console.log(users, "suntem si aici");
   users.push(newUser);
-  console.log(users, "suntem aici");
 
   fs.writeFileSync(filePath, JSON.stringify(users, null, 2));
 
   const userFolderPath = path.join(folderPath, newUser.user);
-   fs.mkdirSync(userFolderPath);
+  fs.mkdirSync(userFolderPath);
 
   res.json({ message: `User created successfully!` });
+});
+
+app.post("/login", (req, res) =>{
+  const{ username, password} = req.body;
+  const filePath = path.join(folderPath, "users.txt");
+  
+  const data = fs.readFileSync(filePath, "utf-8");
+  let users = [];
+
+  users = JSON.parse(data);
+  
+  const foundUser = users.find(u => u.user === username && u.password === password);
+
+  if(foundUser){
+    res.json({success: true, message: "Logare reusita!", user: foundUser});
+  } else {
+    res.status(401).json({succes:false, message: "Username sau parola incorecta!"});
+  }
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
