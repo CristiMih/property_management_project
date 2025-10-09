@@ -202,43 +202,12 @@ function loadSignUpHTML(){
     googleIcon.src = 'icons/google.svg';
     googleIcon.alt = 'Google Icon';
 
-    // const imgDiv = document.getElementById('img-div');
-    // imgDiv.innerHTML = "";
-    // const testimonial = document.createElement('div');
-    // imgDiv.appendChild(testimonial);
-    // testimonial.classList.add('testimonial');
-
-    // const quote = document.createElement('p')
-    // testimonial.appendChild(quote);
-    // quote.classList.add('quote');
-    // quote.textContent = '"Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam velit ipsam corrupti, commodi earum modi aliquid architecto voluptate nisi eveniet eius tenetur quasi aperiam facere quas qui, ipsa id quod?"';
-
-    // const author = document.createElement('p')
-    // testimonial.appendChild(author);
-    // author.classList.add('author');
-    // author.textContent = 'Lorem, ipsum.';
-
-    // const carouselDiv = document.createElement('div');
-    // testimonial.appendChild(carouselDiv);
-    // carouselDiv.classList.add('carousel-div');
-
-    // const carouselBtn1 = document.createElement('button');
-    // carouselBtn1.setAttribute('data-index', "0");
-    // const carouselBtn2 = document.createElement('button');
-    // carouselBtn2.setAttribute('data-index', "1");
-    // const carouselBtn3 = document.createElement('button');
-    // carouselBtn3.setAttribute('data-index', "2");
-    // carouselDiv.appendChild(carouselBtn1);
-    // carouselDiv.appendChild(carouselBtn2);
-    // carouselDiv.appendChild(carouselBtn3);
-
      const bgImg = document.getElementById('bg-img');
     // imgDiv.appendChild(bgImg);
      bgImg.src = 'house2.jpg';
 
-    // startCarousel(quote, author);
-
-    signUpBtn.addEventListener('click', () => loadLoginHTML())
+    // startCarousel(quote, author);{
+    signUpBtn.addEventListener('click', () => createUser(nameInput.value, userInput.value, emailInput.value, passInput.value));
     loginPageBtn.addEventListener('click', () => loadLoginHTML());
     signUpPageBtn.addEventListener('click', () => loadSignUpHTML());
 }
@@ -282,4 +251,42 @@ function startCarousel(quoteDiv, authorDiv, indexValue = 0) {
     
     index++;
   }, 4000);
+}
+
+function createUser(name, user, email, password){
+  if(validateUser(email)){
+    const newUser = {
+    name,
+    user,
+    email,
+    password,
+    admin: true,
+    id: crypto.randomUUID().slice(0, 8)
+    }
+    
+    fetch("http://127.0.0.1:3000/createUser", {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ content: newUser })
+    })
+      .then(response => response.json())
+      .then(() => loadLoginHTML())
+      .catch(error => alert('Error creating your account:' + error))
+
+  }
+  
+}
+
+function validateUser(email){
+  let valid;
+  const regex = /\S+@\S+\.\S+/;
+  if(regex.test(email)){
+    alert('A trecut emailul')
+    valid = true; 
+  } else{
+    alert('N-a trecut')
+    valid = false;
+  }
+  return valid;
+  
 }

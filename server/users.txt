@@ -1,0 +1,10 @@
+[
+  {
+    "name": "admin ",
+    "user": "admin",
+    "email": "admin@yahoo.com",
+    "password": "admin",
+    "admin": true,
+    "id": "91019f50"
+  }
+]

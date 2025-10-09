@@ -355,11 +355,15 @@ function generateRequests(parent,admin, subject, propertyName, adress, descripti
   const checkButton = document.createElement('button');
   actionTd.appendChild(checkButton);
   checkButton.textContent = "Solve";
-  
+
   actionTd.appendChild(editbutton);
   editbutton.textContent = "Edit";
 
- 
+  const modal = document.getElementById('edit-modal');
+  const closeModal = document.getElementById('edit-close-modal');
+
+  editbutton.addEventListener('click', () => modal.showModal());
+  closeModal.addEventListener('click', () => modal.close());
 
   return tr;
 }
