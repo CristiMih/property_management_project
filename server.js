@@ -56,22 +56,42 @@ app.post("/createUser", (req, res) => {
   res.json({ message: `User created successfully!` });
 });
 
-app.post("/login", (req, res) =>{
-  const{ username, password} = req.body;
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
   const filePath = path.join(folderPath, "users.txt");
-  
-  const data = fs.readFileSync(filePath, "utf-8");
-  let users = [];
 
-  users = JSON.parse(data);
-  
+  const data = fs.readFileSync(filePath, "utf-8");
+  const users = JSON.parse(data);
+
   const foundUser = users.find(u => u.user === username && u.password === password);
 
-  if(foundUser){
-    res.json({success: true, message: "Logare reusita!", user: foundUser});
-  } else {
-    res.status(401).json({succes:false, message: "Username sau parola incorecta!"});
+  if (!foundUser) {
+    return res.status(401).json({ success: false, message: "Username sau parola incorecta!" });
   }
+
+  const userFolder = path.join(folderPath, username);
+  const portfolioFilePath = path.join(userFolder, 'portfolio.txt');
+
+  // Verificăm dacă folderul userului există, dacă nu, îl creăm
+  if (!fs.existsSync(userFolder)) {
+    fs.mkdirSync(userFolder); // fără recursive
+  }
+
+  let portfolio = [];
+
+  if (fs.existsSync(portfolioFilePath)) {
+    const portfolioData = fs.readFileSync(portfolioFilePath, 'utf8');
+    portfolio = JSON.parse(portfolioData);
+  } else {
+    fs.writeFileSync(portfolioFilePath, '[]');
+  }
+
+  res.json({
+    success: true,
+    message: "Logare reusita!",
+    user: foundUser,
+    portfolio
+  });
 });
 
 app.get("/loadUsers", (req, res) => {

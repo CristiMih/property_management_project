@@ -1,9 +1,25 @@
-const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
-let currentPortfolio;
+let currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+let currentPortfolio = JSON.parse(sessionStorage.getItem("currentPortfolio"));
 
 window.onload = function() {
   if (currentUser.admin) {
     generateUsersUI();
+
+    const submitBtn = document.getElementById('user-submit-modal');
+    const userInput = document.getElementById('username-input');
+    const nameInput = document.getElementById('name-input');
+    const emailInput = document.getElementById('email-input');
+    const passInput = document.getElementById('password-input');
+    const modal = document.getElementById('user-modal');
+
+
+    submitBtn.addEventListener('click', () => {
+      createUser(nameInput.value, userInput.value, emailInput.value, passInput.value, modal);
+      nameInput.value = "";
+      userInput.value = "";
+      emailInput.value = "";
+      passInput.value = "";
+    });
   } else {
     generatePortfolioUI(currentUser.admin);
   }
@@ -64,13 +80,7 @@ function generateUsersUI(){
   const closeBtn = document.getElementById('user-close-modal');
   const modal = document.getElementById('user-modal');
   
-  const submitBtn = document.getElementById('user-submit-modal');
-  const userInput = document.getElementById('username-input');
-  const nameInput = document.getElementById('name-input');
-  const emailInput = document.getElementById('email-input');
-  const passInput = document.getElementById('password-input');
 
-  submitBtn.addEventListener('click',() => createUser(nameInput.value, userInput.value, emailInput.value, passInput.value, modal))
   addBtn.addEventListener('click', () => modal.showModal());
   closeBtn.addEventListener('click', () => modal.close());
     
@@ -417,6 +427,7 @@ function loadUsers(parent){
         }
         generateUsers(parent, e.user, e.name, e.email, e.password);
       });
+
     })
     .catch(error => alert('Eroare la încărcarea utilizatorilor: ' + error));   
 }
@@ -433,7 +444,7 @@ function loadPortfolio(button){
     .catch(error => console.error('Error:', error));   
 }
 
-function createUser(name, user, email, password){
+function createUser(name, user, email, password,modal){
   if(validateUser(email)){
     const newUser = {
     name,
@@ -450,7 +461,10 @@ function createUser(name, user, email, password){
       body: JSON.stringify({ content: newUser })
     })
       .then(response => response.json())
-      .then(() => {loadUsers(document.querySelector('table'))})
+      .then(() => {
+        loadUsers(document.querySelector('table'));
+        modal.close();
+      })
       .catch(error => alert('Error creating your account:' + error))
 
   }

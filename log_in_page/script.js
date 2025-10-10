@@ -304,6 +304,7 @@ function logIn(username, password){
     .then(data => {
       if (data.success){
         sessionStorage.setItem("currentUser", JSON.stringify(data.user));
+        sessionStorage.setItem("currentPortfolio", JSON.stringify(data.portfolio));
         window.location.href = "../dashboard/index.html";
       } else{
         alert("Logare esuata: " + data.message);
