@@ -1,20 +1,17 @@
-[
-  {
-    "name": "Magnolia Villa",
-    "address": "1425 Willow Creek Rd, Austin, TX 78704",
-    "type": "Residential",
-    "priority": "high"
-  },
-  {
-    "name": "Central Tower",
-    "address": "500 Market St, San Francisco, CA 94105",
-    "type": "Commercial",
-    "priority": "medium"
-  },
-  {
-    "name": "Green Cottage",
-    "address": "88 Pine Hollow Ln, Asheville, NC 28803",
-    "type": "Residential",
-    "priority": "low"
-  }
-]
+{
+  "username": "test",
+  "properties": [
+    {
+      "name": "sss",
+      "address": "sss",
+      "type": "sss",
+      "priority": "high"
+    },
+    {
+      "name": "sssaaa",
+      "address": "sssaaa",
+      "type": "sssaaa",
+      "priority": "medium"
+    }
+  ]
+}

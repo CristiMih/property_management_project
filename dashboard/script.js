@@ -1,6 +1,8 @@
 let currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
 let currentPortfolio = JSON.parse(sessionStorage.getItem("currentPortfolio"));
 
+console.log(currentPortfolio);
+
 window.onload = function() {
   if (currentUser.admin) {
     generateUsersUI();
@@ -20,6 +22,19 @@ window.onload = function() {
       emailInput.value = "";
       passInput.value = "";
     });
+
+
+    const propertyNameInput = document.getElementById('property-name');
+    const addressInput = document.getElementById('property-address');
+    const propertyTypeInput = document.getElementById('property-type');
+    const propertyPriorityInput = document.getElementById('priority');
+    const Propertymodal = document.getElementById('property-modal');
+    const submitPropertyBtn = document.getElementById('property-submit-modal');
+
+    submitPropertyBtn.addEventListener('click', () =>{
+      createProperty(propertyNameInput.value, addressInput.value, propertyTypeInput.value, propertyPriorityInput.value)
+    })
+
   } else {
     generatePortfolioUI(currentUser.admin);
   }
@@ -163,7 +178,7 @@ function generatePortfolioUI(admin){
   closeBtn.addEventListener('click', () => modal.close());
   backButton.addEventListener('click', () => generateUsersUI());
   
-  currentPortfolio.forEach((e) =>{
+  currentPortfolio.properties.forEach((e) =>{
     generateProperty(table, e.name, e.address, e.type, e.priority);
   })
 }
@@ -433,8 +448,13 @@ function loadUsers(parent){
 }
 
 function loadPortfolio(button){
-  const username = button.getAttribute('data-username');
-  console.log(username);
+  let username;
+  if(button){
+    username = button.getAttribute('data-username');
+  } else{
+    username = currentPortfolio.username;
+  }
+
   fetch(`http://127.0.0.1:3000/loadPortfolio/${username}`)
     .then(response => response.json())
     .then(data => {
@@ -483,3 +503,28 @@ function validateUser(email){
   return valid;
   
 }
+
+function createProperty(name, address, type, priority){
+    const newProperty = {
+    name,
+    address,
+    type,
+    priority
+    }
+    
+    let username = currentPortfolio.username;
+    
+    fetch(`http://127.0.0.1:3000/createProperty/${username}`, {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ content: newProperty })
+    })
+      .then(response => response.json())
+      .then(() => {
+        loadPortfolio();
+      })
+      .catch(error => alert('Error creating your account:' + error))
+
+}
+
+

@@ -72,18 +72,22 @@ app.post("/login", (req, res) => {
   const userFolder = path.join(folderPath, username);
   const portfolioFilePath = path.join(userFolder, 'portfolio.txt');
 
-  // Verificăm dacă folderul userului există, dacă nu, îl creăm
+  
   if (!fs.existsSync(userFolder)) {
-    fs.mkdirSync(userFolder); // fără recursive
+    fs.mkdirSync(userFolder);
   }
 
-  let portfolio = [];
+  let portfolio = {};
 
   if (fs.existsSync(portfolioFilePath)) {
     const portfolioData = fs.readFileSync(portfolioFilePath, 'utf8');
     portfolio = JSON.parse(portfolioData);
   } else {
-    fs.writeFileSync(portfolioFilePath, '[]');
+    portfolio = {
+      username: username,
+      properties: []
+    };
+    fs.writeFileSync(portfolioFilePath, JSON.stringify(portfolio, null, 2));
   }
 
   res.json({
@@ -112,16 +116,67 @@ app.get("/loadPortfolio/:username", (req, res) => {
   const filePath = path.join(folderPath, username, 'portfolio.txt');
 
   if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, '[]');
-    return res.status(201).json({ message: 'portfolio.txt was created', portfolio: [] });
-  }
-    
-  const data = fs.readFileSync(filePath, 'utf8');
-  let portfolio = [];
-  portfolio = JSON.parse(data);
-  res.json({ portfolio });
+    const initialData = {
+      username: username,
+      properties: []
+    };
 
+    fs.writeFileSync(filePath, JSON.stringify(initialData, null, 2));
+    return res.status(201).json({ message: 'portfolio.txt created', portfolio: initialData });
+  }
+
+  try {
+    const data = fs.readFileSync(filePath, 'utf8');
+    const portfolio = JSON.parse(data);
+    res.json({ portfolio });
+  } catch (error) {
+    res.status(500).json({ message: 'Error reading or parsing portfolio file.' });
+  }
 });
+
+app.post("/createProperty/:username", (req, res) => {
+  const username = req.params.username;
+  const content = req.body.content;
+  const filePath = path.join(folderPath, username, "portfolio.txt");
+
+  if (!content || !content.name || !content.address || !content.type || !content.priority) {
+    return res.status(400).json({ message: "Error: Missing required fields." });
+  }
+
+  let portfolio = { username, properties: [] };
+
+  if (fs.existsSync(filePath)) {
+    const existingData = fs.readFileSync(filePath, 'utf-8');
+    try {
+      portfolio = JSON.parse(existingData);
+      if (!portfolio.properties || !Array.isArray(portfolio.properties)) {
+        portfolio.properties = [];
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "Error reading existing portfolio." });
+    }
+  }
+
+  const newProperty = {
+    name: content.name,
+    address: content.address,
+    type: content.type,
+    priority: content.priority
+  };
+
+  portfolio.properties.push(newProperty);
+
+  fs.writeFileSync(filePath, JSON.stringify(portfolio, null, 2));
+
+  const folderName = newProperty.name.split(" ")[0];
+  const propertyFolderPath = path.join(folderPath, folderName);
+  if (!fs.existsSync(propertyFolderPath)) {
+    fs.mkdirSync(propertyFolderPath);
+  }
+
+  res.json({ message: `Property created successfully!` });
+});
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
