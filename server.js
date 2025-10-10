@@ -74,4 +74,34 @@ app.post("/login", (req, res) =>{
   }
 });
 
+app.get("/loadUsers", (req, res) => {
+  const filePath = path.join(folderPath, "users.txt");
+
+  const data = fs.readFileSync(filePath, "utf-8");
+
+  let users = [];
+
+  users = JSON.parse(data);
+
+  res.json({success: true, message: "Success!", users});
+
+})
+
+app.get("/loadPortfolio/:username", (req, res) => {
+  const username = req.params.username;
+  const filePath = path.join(folderPath, username, 'portfolio.txt');
+
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, '[]');
+    return res.status(201).json({ message: 'portfolio.txt was created', portfolio: [] });
+  }
+    
+  const data = fs.readFileSync(filePath, 'utf8');
+  let portfolio = [];
+  portfolio = JSON.parse(data);
+  res.json({ portfolio });
+
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+

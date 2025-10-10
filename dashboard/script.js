@@ -1,8 +1,17 @@
-const currentUser = JSON.parse(sessionStorage.getItem("loggedUser"));
-console.log(currentUser.admin);
+const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+let currentPortfolio;
+
+window.onload = function() {
+  if (currentUser.admin) {
+    generateUsersUI();
+  } else {
+    generatePortfolioUI(currentUser.admin);
+  }
+};
 
 
 function generateUsersUI(){
+  
   const menuBtn = document.querySelector('.active');
   menuBtn.textContent = "Users";
   
@@ -51,14 +60,25 @@ function generateUsersUI(){
   const actionTh = document.createElement('th');
   talbeRow.appendChild(actionTh);
   actionTh.textContent = 'Action';
+  
   const closeBtn = document.getElementById('user-close-modal');
   const modal = document.getElementById('user-modal');
+  
+  const submitBtn = document.getElementById('user-submit-modal');
+  const userInput = document.getElementById('username-input');
+  const nameInput = document.getElementById('name-input');
+  const emailInput = document.getElementById('email-input');
+  const passInput = document.getElementById('password-input');
 
+  submitBtn.addEventListener('click',() => createUser(nameInput.value, userInput.value, emailInput.value, passInput.value, modal))
   addBtn.addEventListener('click', () => modal.showModal());
   closeBtn.addEventListener('click', () => modal.close());
+    
+  
 
-  generateUsers(table, "jdoe", "John Doe", "jdoe@example.com", "pass1234");
-  generateUsers(table, "amaria", "Ana Maria Popescu", "	ana.maria@email.com", "securePass");
+  loadUsers(table);
+  // generateUsers(table, "jdoe", "John Doe", "jdoe@example.com", "pass1234");
+  // generateUsers(table, "amaria", "Ana Maria Popescu", "	ana.maria@email.com", "securePass");
 
 }
 
@@ -131,10 +151,11 @@ function generatePortfolioUI(admin){
   
   addBtn.addEventListener('click', () => modal.showModal());
   closeBtn.addEventListener('click', () => modal.close());
-  backButton.addEventListener('click', () => generateUsersUI(currentUser.admin));
-  generateProperty(table, 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Residential', 'high');
-  generateProperty(table, 'Central Tower', '500 Market St, San Francisco, CA 94105', 'Commercial', 'medium');
-  generateProperty(table, 'Green Cottage', '88 Pine Hollow Ln, Asheville, NC 28803', 'Residential', 'low');
+  backButton.addEventListener('click', () => generateUsersUI());
+  
+  currentPortfolio.forEach((e) =>{
+    generateProperty(table, e.name, e.address, e.type, e.priority);
+  })
 }
 
 function generateRequestsUI(){
@@ -237,8 +258,10 @@ function generateUsers(parent, username, name, email, password){
   const button = document.createElement('button');
   actionTd.appendChild(button);
   button.textContent = "Portfolio";
+  button.setAttribute("data-username", username);
 
-  button.addEventListener('click', () => generatePortfolioUI(currentUser.admin))
+  button.addEventListener('click', () => loadPortfolio(button));
+  // generatePortfolioUI(currentUser.admin)
 
   return tr;
 }
@@ -371,13 +394,78 @@ function generateRequests(parent, subject, propertyName, adress, description, pr
   return tr;
 }
 
-if(currentUser.admin){
-  generateUsersUI(currentUser.admin);
-  
-}else{
-  generatePortfolioUI(currentUser.admin);
-}
 
 const logoutIcon = document.getElementById('logout-icon');
 logoutIcon.addEventListener('click', () => window.location.href = "../log_in_page/index.html");
 
+function loadUsers(parent){
+  let rows = document.querySelectorAll('tr');
+  for(let i = 1; i < rows.length; i++){
+    rows[i].innerHTML = "";
+  }
+  fetch("http://127.0.0.1:3000/loadUsers")
+    .then(response => response.json())
+    .then(data => {
+      if (!Array.isArray(data.users)) {
+        alert("Datele primite nu sunt valide.");
+        return;
+      }
+
+      data.users.forEach((e) => {
+        if(e.admin){
+          return
+        }
+        generateUsers(parent, e.user, e.name, e.email, e.password);
+      });
+    })
+    .catch(error => alert('Eroare la încărcarea utilizatorilor: ' + error));   
+}
+
+function loadPortfolio(button){
+  const username = button.getAttribute('data-username');
+  console.log(username);
+  fetch(`http://127.0.0.1:3000/loadPortfolio/${username}`)
+    .then(response => response.json())
+    .then(data => {
+      currentPortfolio = data.portfolio;
+      generatePortfolioUI(currentUser.admin)
+    })
+    .catch(error => console.error('Error:', error));   
+}
+
+function createUser(name, user, email, password){
+  if(validateUser(email)){
+    const newUser = {
+    name,
+    user,
+    email,
+    password,
+    admin: false,
+    id: crypto.randomUUID().slice(0, 8)
+    }
+    
+    fetch("http://127.0.0.1:3000/createUser", {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ content: newUser })
+    })
+      .then(response => response.json())
+      .then(() => {loadUsers(document.querySelector('table'))})
+      .catch(error => alert('Error creating your account:' + error))
+
+  }
+  
+}
+
+function validateUser(email){
+  let valid;
+  const regex = /\S+@\S+\.\S+/;
+  if(regex.test(email)){
+    valid = true; 
+  } else{
+    alert('N-a trecut')
+    valid = false;
+  }
+  return valid;
+  
+}

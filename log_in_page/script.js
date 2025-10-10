@@ -303,8 +303,7 @@ function logIn(username, password){
     .then(res => res.json())
     .then(data => {
       if (data.success){
-        alert(JSON.stringify(data.message));
-        sessionStorage.setItem("loggedUser", JSON.stringify(data.user));
+        sessionStorage.setItem("currentUser", JSON.stringify(data.user));
         window.location.href = "../dashboard/index.html";
       } else{
         alert("Logare esuata: " + data.message);

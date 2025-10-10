@@ -8,11 +8,11 @@
     "id": "91019f50"
   },
   {
-    "name": "gradut",
-    "user": "gradut",
-    "email": "gradut@gradut.com",
-    "password": "gradut",
+    "name": "test",
+    "user": "test",
+    "email": "test@yahoo.com",
+    "password": "test",
     "admin": false,
-    "id": "7488628f"
+    "id": "9757900a"
   }
 ]
