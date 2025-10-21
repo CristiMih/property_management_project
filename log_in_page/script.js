@@ -281,10 +281,10 @@ function validateUser(email){
   let valid;
   const regex = /\S+@\S+\.\S+/;
   if(regex.test(email)){
-    alert('A trecut emailul')
+    alert('Email valid. Verificare reușită.');
     valid = true; 
   } else{
-    alert('N-a trecut')
+    alert('Email invalid. Te rugăm să încerci din nou.')
     valid = false;
   }
   return valid;

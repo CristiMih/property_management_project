@@ -56,6 +56,7 @@ app.post("/createUser", (req, res) => {
   res.json({ message: `User created successfully!` });
 });
 
+
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
   const filePath = path.join(folderPath, "users.txt");
@@ -79,6 +80,7 @@ app.post("/login", (req, res) => {
 
   let portfolio = {};
 
+  //verificam daca userul are sau nu portfoliu
   if (fs.existsSync(portfolioFilePath)) {
     const portfolioData = fs.readFileSync(portfolioFilePath, 'utf8');
     portfolio = JSON.parse(portfolioData);
@@ -169,7 +171,7 @@ app.post("/createProperty/:username", (req, res) => {
   fs.writeFileSync(filePath, JSON.stringify(portfolio, null, 2));
 
   const folderName = newProperty.name.split(" ")[0];
-  const propertyFolderPath = path.join(folderPath, folderName);
+  const propertyFolderPath = path.join(folderPath, username, folderName);
   if (!fs.existsSync(propertyFolderPath)) {
     fs.mkdirSync(propertyFolderPath);
   }
@@ -177,6 +179,65 @@ app.post("/createProperty/:username", (req, res) => {
   res.json({ message: `Property created successfully!` });
 });
 
+app.post("/createRequest/:username/:name", (req, res) => {
+  const username = req.params.username;
+  const name = req.params.name.split(" ")[0];
+  const content = req.body.content;
+  const filePath = path.join(folderPath, username, name, "requests.txt");
 
+  if (!content || !content.name || !content.address || !content.description || !content.priority || !content.status) {
+    return res.status(400).json({ message: "Error: Missing required fields." });
+  }
+
+  let requests = [];
+
+  if (fs.existsSync(filePath)) {
+    const existingData = fs.readFileSync(filePath, 'utf-8');
+    try {
+      requests = JSON.parse(existingData);
+      if (!requests|| !Array.isArray(requests)) {
+        requests = [];
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "Error reading existing requests." });
+    }
+  }
+
+  const newRequest = {
+    subject: content.subject,
+    name: content.name,
+    address: content.address,
+    description: content.description,
+    priority: content.priority,
+    status: content.status
+  };
+
+  requests.push(newRequest);
+
+  fs.writeFileSync(filePath, JSON.stringify(requests, null, 2));
+
+  res.json({ message: `Request created successfully!` });
+});
+
+app.get("/loadRequests/:username/:property", (req, res) => {
+  const username = req.params.username;
+  const property = req.params.property.split(" ")[0];
+  const filePath = path.join(folderPath, username,property ,'requests.txt');
+
+  if (!fs.existsSync(filePath)) {
+    const initialData = [];
+
+    fs.writeFileSync(filePath, JSON.stringify(initialData, null, 2));
+    return res.status(201).json({ message: 'requests.txt created', requests: initialData });
+  }
+
+  try {
+    const data = fs.readFileSync(filePath, 'utf8');
+    const requests = JSON.parse(data);
+    res.json({ requests });
+  } catch (error) {
+    res.status(500).json({ message: 'Error reading or parsing requests file.' });
+  }
+});
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

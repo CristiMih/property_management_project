@@ -2,16 +2,10 @@
   "username": "test",
   "properties": [
     {
-      "name": "sss",
-      "address": "sss",
-      "type": "sss",
+      "name": "aaa",
+      "address": "aaaa",
+      "type": "aaaa",
       "priority": "high"
-    },
-    {
-      "name": "sssaaa",
-      "address": "sssaaa",
-      "type": "sssaaa",
-      "priority": "medium"
     }
   ]
 }

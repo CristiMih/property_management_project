@@ -10,9 +10,9 @@
   {
     "name": "test",
     "user": "test",
-    "email": "test@yahoo.com",
+    "email": "test@test.com",
     "password": "test",
     "admin": false,
-    "id": "9757900a"
+    "id": "8128b34e"
   }
 ]

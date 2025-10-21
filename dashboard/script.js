@@ -1,46 +1,60 @@
 let currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
 let currentPortfolio = JSON.parse(sessionStorage.getItem("currentPortfolio"));
+let currentRequests;
+let currentProperty;
 
-console.log(currentPortfolio);
+console.log(currentUser.email);
 
+//Incarca interfata pe load
 window.onload = function() {
   if (currentUser.admin) {
     generateUsersUI();
-
-    const submitBtn = document.getElementById('user-submit-modal');
-    const userInput = document.getElementById('username-input');
-    const nameInput = document.getElementById('name-input');
-    const emailInput = document.getElementById('email-input');
-    const passInput = document.getElementById('password-input');
-    const modal = document.getElementById('user-modal');
-
-
-    submitBtn.addEventListener('click', () => {
-      createUser(nameInput.value, userInput.value, emailInput.value, passInput.value, modal);
-      nameInput.value = "";
-      userInput.value = "";
-      emailInput.value = "";
-      passInput.value = "";
-    });
-
-
-    const propertyNameInput = document.getElementById('property-name');
-    const addressInput = document.getElementById('property-address');
-    const propertyTypeInput = document.getElementById('property-type');
-    const propertyPriorityInput = document.getElementById('priority');
-    const Propertymodal = document.getElementById('property-modal');
-    const submitPropertyBtn = document.getElementById('property-submit-modal');
-
-    submitPropertyBtn.addEventListener('click', () =>{
-      createProperty(propertyNameInput.value, addressInput.value, propertyTypeInput.value, propertyPriorityInput.value)
-    })
-
   } else {
     generatePortfolioUI(currentUser.admin);
   }
 };
 
 
+loadUserData();
+//add event listeners pe modale
+const submitBtn = document.getElementById('user-submit-modal');
+const userInput = document.getElementById('username-input');
+const nameInput = document.getElementById('name-input');
+const emailInput = document.getElementById('email-input');
+const passInput = document.getElementById('password-input');
+const modal = document.getElementById('user-modal');
+
+submitBtn.addEventListener('click', () => {
+  createUser(nameInput.value, userInput.value, emailInput.value, passInput.value, modal);
+  nameInput.value = "";
+  userInput.value = "";
+  emailInput.value = "";
+  passInput.value = "";
+});
+
+
+const propertyNameInput = document.getElementById('property-name');
+const addressInput = document.getElementById('property-address');
+const propertyTypeInput = document.getElementById('property-type');
+const propertyPriorityInput = document.getElementById('priority');
+const Propertymodal = document.getElementById('property-modal');
+const submitPropertyBtn = document.getElementById('property-submit-modal');
+
+submitPropertyBtn.addEventListener('click', () =>{
+  createProperty(propertyNameInput.value, addressInput.value, propertyTypeInput.value, propertyPriorityInput.value)
+})
+
+const ticketSubject = document.getElementById('ticket-subject');
+const ticketDescription = document.getElementById('ticket-description');
+const ticketPriority = document.getElementById('ticket-priority');
+const ticketStatus = document.getElementById('ticket-status');
+const submitReqBtn = document.getElementById('tickets-submit-modal');
+
+submitReqBtn.addEventListener('click', () => {
+  createRequest(ticketSubject.value,ticketDescription.value, ticketPriority.value, ticketStatus.value) 
+})
+
+//functia care genereaza continutul HTML pentru Interfata de Admin
 function generateUsersUI(){
   
   const menuBtn = document.querySelector('.active');
@@ -107,6 +121,7 @@ function generateUsersUI(){
 
 }
 
+//Functia care genereaza interfata la logIn pentru utilizator
 function generatePortfolioUI(admin){
   // const admin = false;
   let table;
@@ -143,7 +158,7 @@ function generatePortfolioUI(admin){
   h1.textContent = 'Portfolio';
 
   const h2 = document.querySelector('.content-area h2');
-  h2.textContent = 'Units';
+  h2.textContent = `${currentPortfolio.username}'s Units`;
 
   const input = document.querySelector('input');
   input.placeholder = "Search properties";
@@ -183,6 +198,7 @@ function generatePortfolioUI(admin){
   })
 }
 
+//Functia care genereaza interfata pentru Requesturi
 function generateRequestsUI(){
   // const admin = false;
   const table = document.querySelector('table');
@@ -248,14 +264,16 @@ function generateRequestsUI(){
   closeBtn.addEventListener('click', () => modal.close());
   backButton.addEventListener('click', () => generatePortfolioUI(currentUser.admin));
 
-
-  generateRequests(table,'No hot water', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "high", 'unsolved');
-  generateRequests(table,'Locked entrance', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', `Main door won't open`, "high", 'unsolved');
-  generateRequests(table,'Broken light bulb', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "low", 'unsolved');
+  currentRequests.forEach((e) =>{
+    generateRequests(table,e.subject ,e.name, e.address, e.description, e.priority, e.status);
+  })
+  // generateRequests(table,'No hot water', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "high", 'unsolved');
+  // generateRequests(table,'Locked entrance', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', `Main door won't open`, "high", 'unsolved');
+  // generateRequests(table,'Broken light bulb', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "low", 'unsolved');
 }
 
 
-
+//functia care genereaza continutul pentru tabelul de la UsersUI
 function generateUsers(parent, username, name, email, password){
   const tr = document.createElement("tr");
   parent.appendChild(tr);
@@ -291,6 +309,7 @@ function generateUsers(parent, username, name, email, password){
   return tr;
 }
 
+//functia care genereaza continutul pentru tabelul din generatePropertyUI
 function generateProperty(parent, propertyName, adress, type, priority){
   const tr = document.createElement("tr");
   parent.appendChild(tr);
@@ -336,6 +355,7 @@ function generateProperty(parent, propertyName, adress, type, priority){
   actionTd.classList.add('portfolio-action')
   const requestbutton = document.createElement('button');
   actionTd.appendChild(requestbutton);
+  requestbutton.setAttribute("data-property", propertyName.split(" ")[0]);
   requestbutton.textContent = "Tickets";
   // if(admin){
   //   const editbutton = document.createElement('button');
@@ -344,12 +364,18 @@ function generateProperty(parent, propertyName, adress, type, priority){
   // }
  
 
-  requestbutton.addEventListener('click', () => generateRequestsUI());
+  requestbutton.addEventListener('click', () => loadRequests(requestbutton));
+  requestbutton.addEventListener('click', () => {currentProperty = {
+    name: propertyName,
+    address: adress
+  }
+  console.log(currentProperty);
+});
 
   return tr;
 }
 
-
+//functia care genereaza continutul pentru tabelul de la RequestsUI
 function generateRequests(parent, subject, propertyName, adress, description, priority, status){
   const tr = document.createElement("tr");
   parent.appendChild(tr);
@@ -395,7 +421,7 @@ function generateRequests(parent, subject, propertyName, adress, description, pr
 
   const statusTd = document.createElement('td');
   tr.appendChild(statusTd);
-  statusTd.textContent = status;
+  statusTd.textContent = status.charAt(0).toUpperCase() + status.slice(1);
 
   const actionTd = document.createElement('td');
   tr.appendChild(actionTd);
@@ -423,6 +449,7 @@ function generateRequests(parent, subject, propertyName, adress, description, pr
 const logoutIcon = document.getElementById('logout-icon');
 logoutIcon.addEventListener('click', () => window.location.href = "../log_in_page/index.html");
 
+//functia care returneaza array-ul cu userii de pe server
 function loadUsers(parent){
   let rows = document.querySelectorAll('tr');
   for(let i = 1; i < rows.length; i++){
@@ -447,6 +474,7 @@ function loadUsers(parent){
     .catch(error => alert('Eroare la încărcarea utilizatorilor: ' + error));   
 }
 
+//functia care returneaza array-ul cu porprietatile de pe server
 function loadPortfolio(button){
   let username;
   if(button){
@@ -464,6 +492,27 @@ function loadPortfolio(button){
     .catch(error => console.error('Error:', error));   
 }
 
+function loadRequests(button){
+  if(button){
+    property = button.getAttribute('data-property');
+  } else{
+    property = currentProperty.name
+  }
+  
+  username = currentPortfolio.username;
+
+  fetch(`http://127.0.0.1:3000/loadRequests/${username}/${property}`)
+    .then(response => response.json())
+    .then(data => { 
+      currentRequests = data.requests;
+      console.log(data.message);
+      console.log(currentRequests);
+      generateRequestsUI();
+      
+    })
+}
+
+//functia care creeaza utilizatorul pe server
 function createUser(name, user, email, password,modal){
   if(validateUser(email)){
     const newUser = {
@@ -491,19 +540,22 @@ function createUser(name, user, email, password,modal){
   
 }
 
+//functia de validare a emailului
 function validateUser(email){
   let valid;
   const regex = /\S+@\S+\.\S+/;
   if(regex.test(email)){
+    alert('Email valid. Verificare reușită.');
     valid = true; 
   } else{
-    alert('N-a trecut')
+    alert('Email invalid. Te rugăm să încerci din nou.')
     valid = false;
   }
   return valid;
   
 }
 
+//functia care creeaza proprietatea pe server
 function createProperty(name, address, type, priority){
     const newProperty = {
     name,
@@ -527,4 +579,38 @@ function createProperty(name, address, type, priority){
 
 }
 
+function createRequest(subject,description, priority, status){
+  const nameP = currentProperty.name;
+  const address = currentProperty.address;
+  const newRequest = {
+    subject,
+    name: nameP,
+    address,
+    description,
+    priority,
+    status
+    }
+    
+  let username = currentPortfolio.username;
+    
+  fetch(`http://127.0.0.1:3000/createRequest/${username}/${nameP}`, {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ content: newRequest })
+      })
+      .then(response => response.json())
+      .then(() => {
+        loadRequests();
+      })
+      .catch(error => alert('Error creating your account:' + error))
+
+}
+
+function loadUserData(){
+  const userName = document.getElementById('user-name');
+  const userEmail = document.getElementById('user-email');
+
+  userName.textContent = currentUser.user;
+  userEmail.textContent = currentUser.email;
+}
 
