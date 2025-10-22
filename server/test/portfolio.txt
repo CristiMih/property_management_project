@@ -2,9 +2,9 @@
   "username": "test",
   "properties": [
     {
-      "name": "aaa",
-      "address": "aaaa",
-      "type": "aaaa",
+      "name": "asd",
+      "address": "asd",
+      "type": "asd",
       "priority": "high"
     }
   ]

@@ -212,11 +212,115 @@ app.post("/createRequest/:username/:name", (req, res) => {
     status: content.status
   };
 
+  newRequest.id = crypto.randomUUID().slice(0, 8);
   requests.push(newRequest);
 
   fs.writeFileSync(filePath, JSON.stringify(requests, null, 2));
 
   res.json({ message: `Request created successfully!` });
+});
+
+app.put("/editRequest/:username/:name", (req, res) => {
+  const username = req.params.username;
+  const name = req.params.name.split(" ")[0];
+  const content = req.body.content;
+  const requestId = content.id;
+  const filePath = path.join(folderPath, username, name, "requests.txt");
+
+  if (!content || !content.subject || !content.description || !content.priority || !content.status) {
+    return res.status(400).json({ message: "Error: Missing required fields." });
+  }
+
+  let requests = [];
+
+  if (fs.existsSync(filePath)) {
+    const existingData = fs.readFileSync(filePath, 'utf-8');
+    try {
+      requests = JSON.parse(existingData);
+      if (!requests|| !Array.isArray(requests)) {
+        requests = [];
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "Error reading existing requests." });
+    }
+  }
+
+  const foundRequest = requests.find(u => u.id === requestId);
+
+  if (foundRequest) {
+  foundRequest.subject = content.subject;
+  foundRequest.description = content.description;
+  foundRequest.priority = content.priority;
+  foundRequest.status = content.status;
+} else {
+  return res.status(404).json({ message: "Request not found." });
+}
+
+
+  fs.writeFileSync(filePath, JSON.stringify(requests, null, 2));
+
+  res.json({ message: `Request updated successfully!` });
+});
+
+app.delete("/deleteTask/:username/:name", (req, res) => {
+  const username = req.params.username;
+  const name = req.params.name.split(" ")[0];
+  const id = req.body.content;
+  const filePath = path.join(folderPath, username, name, "requests.txt");
+
+  let requests = [];
+
+  if (fs.existsSync(filePath)) {
+    const existingData = fs.readFileSync(filePath, 'utf-8');
+    try {
+      requests = JSON.parse(existingData);
+      if (!requests|| !Array.isArray(requests)) {
+        requests = [];
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "Error reading existing requests." });
+    }
+  }
+
+  requests = requests.filter(u => u.id !== id);
+
+
+  fs.writeFileSync(filePath, JSON.stringify(requests, null, 2));
+
+  res.json({ message: `Request deleted successfully!` });
+});
+
+app.put("/solveTask/:username/:name", (req, res) => {
+  const username = req.params.username;
+  const name = req.params.name.split(" ")[0];
+  const id = req.body.content;
+  const filePath = path.join(folderPath, username, name, "requests.txt");
+
+  let requests = [];
+
+  if (fs.existsSync(filePath)) {
+    const existingData = fs.readFileSync(filePath, 'utf-8');
+    try {
+      requests = JSON.parse(existingData);
+      if (!requests|| !Array.isArray(requests)) {
+        requests = [];
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "Error reading existing requests." });
+    }
+  }
+
+  const foundRequest = requests.find(u => u.id === id);
+  if(foundRequest.status === 'solved'){
+    foundRequest.status = 'unsolved'
+  } else{
+    foundRequest.status = 'solved'
+  }
+
+
+  fs.writeFileSync(filePath, JSON.stringify(requests, null, 2));
+
+  res.json({ message: `Request deleted successfully!` });
 });
 
 app.get("/loadRequests/:username/:property", (req, res) => {

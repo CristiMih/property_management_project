@@ -265,11 +265,9 @@ function generateRequestsUI(){
   backButton.addEventListener('click', () => generatePortfolioUI(currentUser.admin));
 
   currentRequests.forEach((e) =>{
-    generateRequests(table,e.subject ,e.name, e.address, e.description, e.priority, e.status);
+    generateRequests(table,e.subject ,e.name, e.address, e.description, e.priority, e.status,e.id);
   })
-  // generateRequests(table,'No hot water', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "high", 'unsolved');
-  // generateRequests(table,'Locked entrance', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', `Main door won't open`, "high", 'unsolved');
-  // generateRequests(table,'Broken light bulb', 'Magnolia Villa', '1425 Willow Creek Rd, Austin, TX 78704', 'Boiler not working', "low", 'unsolved');
+  
 }
 
 
@@ -376,7 +374,7 @@ function generateProperty(parent, propertyName, adress, type, priority){
 }
 
 //functia care genereaza continutul pentru tabelul de la RequestsUI
-function generateRequests(parent, subject, propertyName, adress, description, priority, status){
+function generateRequests(parent, subject, propertyName, adress, description, priority, status, id){
   const tr = document.createElement("tr");
   parent.appendChild(tr);
 
@@ -430,21 +428,66 @@ function generateRequests(parent, subject, propertyName, adress, description, pr
 
   const editbutton = document.createElement('button');
   const checkButton = document.createElement('button');
+  checkButton.setAttribute("data-id", id);
   actionTd.appendChild(checkButton);
   checkButton.textContent = "Solve";
+  checkButton.addEventListener('click', () => solveTask(checkButton));
 
   actionTd.appendChild(editbutton);
   editbutton.textContent = "Edit";
 
   const modal = document.getElementById('edit-modal');
+  const subjectInput = document.getElementById('edit-ticket-subject');
+  const descriptionInput = document.getElementById('edit-ticket-description');
+  const priorityInput = document.getElementById('edit-ticket-priority');
+  const statusInput = document.getElementById('edit-ticket-status');
+  const deleteRequestBtn = document.getElementById('delete-request-btn');
+  const editRequestBtn = document.getElementById('edit-submit-modal');
   const closeModal = document.getElementById('edit-close-modal');
+
+  editbutton.setAttribute("data-id", id);
+  editbutton.addEventListener('click', () =>{
+    subjectInput.value = subject;
+    descriptionInput.value = description;
+    priorityInput.value = priority;
+    statusInput.value = status;
+    editRequestBtn.removeAttribute("data-id");
+    const newId = editbutton.getAttribute("data-id");
+    editRequestBtn.setAttribute("data-id", newId);
+    deleteRequestBtn.removeAttribute("data-id");
+    deleteRequestBtn.setAttribute("data-id", newId);
+
+  })
+
+  
 
   editbutton.addEventListener('click', () => modal.showModal());
   closeModal.addEventListener('click', () => modal.close());
 
+
   return tr;
 }
 
+const editRequestBtn = document.getElementById('edit-submit-modal');
+const subjectInput = document.getElementById('edit-ticket-subject');
+const descriptionInput = document.getElementById('edit-ticket-description');
+const priorityInput = document.getElementById('edit-ticket-priority');
+const statusInput = document.getElementById('edit-ticket-status');
+const deleteRequestBtn = document.getElementById('delete-request-btn');
+
+deleteRequestBtn.removeEventListener('click', deleteRequest);
+deleteRequestBtn.addEventListener('click', deleteRequestHandler);
+
+editRequestBtn.removeEventListener('click', editRequestHandler);
+editRequestBtn.addEventListener('click', editRequestHandler);
+function editRequestHandler(){
+    const id = editRequestBtn.getAttribute("data-id");
+    editRequest(subjectInput.value, descriptionInput.value, priorityInput.value, statusInput.value, id)
+    }
+
+function deleteRequestHandler(){
+  deleteRequest(deleteRequestBtn)
+}
 
 const logoutIcon = document.getElementById('logout-icon');
 logoutIcon.addEventListener('click', () => window.location.href = "../log_in_page/index.html");
@@ -612,5 +655,65 @@ function loadUserData(){
 
   userName.textContent = currentUser.user;
   userEmail.textContent = currentUser.email;
+}
+
+function editRequest(subject, description, priority, status,id){
+  const nameP = currentProperty.name;
+  const editRequest = {
+    subject,
+    description,
+    priority,
+    status,
+    id
+    }
+    
+  let username = currentPortfolio.username;
+    
+  fetch(`http://127.0.0.1:3000/editRequest/${username}/${nameP}`, {
+      method: 'PUT',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ content: editRequest })
+      })
+      .then(response => response.json())
+      .then(() => {
+        loadRequests();
+      })
+      .catch(error => alert('Error creating your account:' + error))
+
+}
+
+function deleteRequest(button){
+  const id = button.getAttribute("data-id");
+  let username = currentPortfolio.username;
+  const nameP = currentProperty.name;
+    
+  fetch(`http://127.0.0.1:3000/deleteTask/${username}/${nameP}`, {
+      method: 'DELETE',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ content: id })
+      })
+      .then(response => response.json())
+      .then(() => {
+        loadRequests();
+      })
+      .catch(error => alert('Error creating your account:' + error))
+
+}
+
+function solveTask(button){
+  const id = button.getAttribute("data-id");
+  let username = currentPortfolio.username;
+  const nameP = currentProperty.name;
+  
+  fetch(`http://127.0.0.1:3000/solveTask/${username}/${nameP}`, {
+      method: 'PUT',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ content: id })
+      })
+      .then(response => response.json())
+      .then(() => {
+        loadRequests();
+      })
+      .catch(error => alert('Error creating your account:' + error))
 }
 

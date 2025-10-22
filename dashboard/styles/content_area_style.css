@@ -320,6 +320,12 @@ dialog > h2 {
   cursor: pointer;
 }
 
+.delete-btn{
+  background-color: red;
+  border-color: red;
+  margin-left: 15px;
+}
+
 .close-modal{
   position: absolute;
   top: 5%;
