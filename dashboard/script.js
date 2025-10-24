@@ -76,6 +76,8 @@ function generateUsersUI(){
   const h2 = document.querySelector('.content-area h2');
   h2.textContent = 'Profiles';
 
+  const searchBar = document.querySelector('#search-bar')
+  searchBar.style.display = 'none';
   const input = document.querySelector('input');
   input.placeholder = "Search users";
 
@@ -160,6 +162,8 @@ function generatePortfolioUI(admin){
   const h2 = document.querySelector('.content-area h2');
   h2.textContent = `${currentPortfolio.username}'s Units`;
 
+  const searchBar = document.querySelector('#search-bar')
+  searchBar.style.display = 'none';
   const input = document.querySelector('input');
   input.placeholder = "Search properties";
 
@@ -193,7 +197,7 @@ function generatePortfolioUI(admin){
   closeBtn.addEventListener('click', () => modal.close());
   backButton.addEventListener('click', () => generateUsersUI());
   
-  currentPortfolio.properties.forEach((e) =>{
+   sortArrayPriority(currentPortfolio.properties).forEach((e) =>{
     generateProperty(table, e.name, e.address, e.type, e.priority);
   })
 }
@@ -222,10 +226,22 @@ function generateRequestsUI(){
   addBtn.innerHTML = `<div class="circle-plus">+</div> Add Request`
 
   const h2 = document.querySelector('.content-area h2');
-  h2.textContent = 'Tickets - Magnolia Villa';
+  h2.textContent = `Tickets - ${currentProperty.name}`;
 
+  const searchBar = document.querySelector('#search-bar')
+  searchBar.style.display = 'block';
   const input = document.querySelector('input');
   input.placeholder = "Search Tickets";
+  input.addEventListener('input', e => {
+    const value = e.target.value.toLowerCase()
+    currentRequests.forEach(request =>{
+      const isVisible = 
+        request.subject.toLowerCase().includes(value) || 
+        request.description.toLowerCase().includes(value);
+      request.tr.classList.toggle("hide", !isVisible);
+
+    })
+  })
 
   const tableDiv = document.getElementById('table-div');
   tableDiv.appendChild(table);
@@ -265,7 +281,7 @@ function generateRequestsUI(){
   backButton.addEventListener('click', () => generatePortfolioUI(currentUser.admin));
 
   currentRequests.forEach((e) =>{
-    generateRequests(table,e.subject ,e.name, e.address, e.description, e.priority, e.status,e.id);
+    e.tr = generateRequests(table,e.subject ,e.name, e.address, e.description, e.priority, e.status,e.id);
   })
   
 }
@@ -420,6 +436,9 @@ function generateRequests(parent, subject, propertyName, adress, description, pr
   const statusTd = document.createElement('td');
   tr.appendChild(statusTd);
   statusTd.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  // if(statusTd.textContent === "Solved"){
+  //   tr.style.backgroundColor = "#f3fbf6";
+  // }
 
   const actionTd = document.createElement('td');
   tr.appendChild(actionTd);
@@ -547,9 +566,7 @@ function loadRequests(button){
   fetch(`http://127.0.0.1:3000/loadRequests/${username}/${property}`)
     .then(response => response.json())
     .then(data => { 
-      currentRequests = data.requests;
-      console.log(data.message);
-      console.log(currentRequests);
+      currentRequests = sortArrayPriority(data.requests);
       generateRequestsUI();
       
     })
@@ -775,4 +792,13 @@ function showPopup(message, status) {
   if (popups.length > 6) {
     popups[0].remove();
   }
+}
+
+function sortArrayPriority(array){
+  const priorities = { high: 1, medium: 2, low: 3 };
+
+  const sortedArray = array.sort((a, b) => {
+  return priorities[a.priority] - priorities[b.priority];
+});
+  return sortedArray
 }

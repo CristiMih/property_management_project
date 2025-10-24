@@ -121,6 +121,10 @@ tr:nth-child(3){
   box-shadow: none;
 }
 
+.hide{
+  display: none;
+}
+
 table{
   width: 100%;
   border-spacing: 0;

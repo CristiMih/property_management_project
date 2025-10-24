@@ -2,51 +2,9 @@
   "username": "test",
   "properties": [
     {
-      "name": "asd",
-      "address": "asd",
-      "type": "asd",
-      "priority": "high"
-    },
-    {
-      "name": "sadsad",
-      "address": "dsadsads",
-      "type": "dsadsa",
-      "priority": "high"
-    },
-    {
-      "name": "dsasad",
-      "address": "sadsad",
-      "type": "dsadsad",
-      "priority": "high"
-    },
-    {
-      "name": "dsadsa",
+      "name": "dsad",
       "address": "sdsad",
-      "type": "sadsa",
-      "priority": "high"
-    },
-    {
-      "name": "dsad",
-      "address": "sdadsa",
-      "type": "sadsad",
-      "priority": "high"
-    },
-    {
-      "name": "fssdad",
-      "address": "sadsada",
-      "type": "sadsad",
-      "priority": "high"
-    },
-    {
-      "name": "dsad",
-      "address": "dsdsad",
-      "type": "sadsad",
-      "priority": "high"
-    },
-    {
-      "name": "dsadsa",
-      "address": "sdasd",
-      "type": "sadsad",
+      "type": "ssadsad",
       "priority": "high"
     }
   ]

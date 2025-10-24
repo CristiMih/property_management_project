@@ -14,53 +14,5 @@
     "password": "test",
     "admin": false,
     "id": "8128b34e"
-  },
-  {
-    "name": "dasdsa",
-    "user": "dsadas",
-    "email": "dasdsad@sdasd.com",
-    "password": "dsasad",
-    "admin": false,
-    "id": "990787fe"
-  },
-  {
-    "name": "saddsad",
-    "user": "dsadsad",
-    "email": "sadsa@sad.com",
-    "password": "dsadsadsad",
-    "admin": false,
-    "id": "308f0ccb"
-  },
-  {
-    "name": "Gradut gradescu",
-    "user": "gradut",
-    "email": "gradescu@gradescu.gradescu",
-    "password": "dsa",
-    "admin": false,
-    "id": "1830a7ce"
-  },
-  {
-    "name": "ddsadsad",
-    "user": "sdadsa",
-    "email": "sad@sadsa.com",
-    "password": "sadad",
-    "admin": false,
-    "id": "6cbc240e"
-  },
-  {
-    "name": "dsasa",
-    "user": "sdasad",
-    "email": "sadsad@dsada.com",
-    "password": "dsadsa",
-    "admin": false,
-    "id": "b6925af2"
-  },
-  {
-    "name": "dsdsa",
-    "user": "sadsad",
-    "email": "sada@dsa.com",
-    "password": "sdasada",
-    "admin": false,
-    "id": "ba28e8d6"
   }
 ]
