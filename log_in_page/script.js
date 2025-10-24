@@ -270,7 +270,14 @@ function createUser(name, user, email, password){
       body: JSON.stringify({ content: newUser })
     })
       .then(response => response.json())
-      .then(() => loadLoginHTML())
+      .then(data => {
+        if(data.status === "success"){
+          loadLoginHTML();
+          showPopup(data.message, data.status);
+        }else{
+          showPopup(data.message, data.status);
+        }
+      })
       .catch(error => alert('Error creating your account:' + error))
 
   }
@@ -281,10 +288,9 @@ function validateUser(email){
   let valid;
   const regex = /\S+@\S+\.\S+/;
   if(regex.test(email)){
-    alert('Email valid. Verificare reușită.');
     valid = true; 
   } else{
-    alert('Email invalid. Te rugăm să încerci din nou.')
+    showPopup('Invalid email. Please try again!','error')
     valid = false;
   }
   return valid;
@@ -296,8 +302,8 @@ function logIn(username, password){
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
-      username: username,
-      password: password
+      username: username.trim(),
+      password: password.trim()
     })
   })
     .then(res => res.json())
@@ -307,8 +313,35 @@ function logIn(username, password){
         sessionStorage.setItem("currentPortfolio", JSON.stringify(data.portfolio));
         window.location.href = "../dashboard/index.html";
       } else{
-        alert("Logare esuata: " + data.message);
+        showPopup("Wrong username or password", "error");
       }
     })
     .catch(err => alert("Eroare la logare: " + err))
+}
+
+function showPopup(message, status) {
+  const container = document.getElementById("popupContainer");
+
+  // Create a new popup element
+  const popup = document.createElement("div");
+  popup.classList.add("popupMessage");
+  popup.textContent = message;
+  popup.classList.add(status)
+
+  container.appendChild(popup);
+
+  // Show animation
+  setTimeout(() => popup.classList.add("show"), 10);
+
+  // Auto-remove after 5s
+  setTimeout(() => {
+    popup.classList.remove("show");
+    setTimeout(() => popup.remove(), 300);
+  }, 8000);
+
+  // Keep only last 6 visible popups
+  const popups = container.querySelectorAll(".popupMessage");
+  if (popups.length > 6) {
+    popups[0].remove();
+  }
 }

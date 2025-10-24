@@ -26,10 +26,10 @@ const modal = document.getElementById('user-modal');
 
 submitBtn.addEventListener('click', () => {
   createUser(nameInput.value, userInput.value, emailInput.value, passInput.value, modal);
-  nameInput.value = "";
-  userInput.value = "";
-  emailInput.value = "";
-  passInput.value = "";
+  // nameInput.value = "";
+  // userInput.value = "";
+  // emailInput.value = "";
+  // passInput.value = "";
 });
 
 
@@ -573,9 +573,14 @@ function createUser(name, user, email, password,modal){
       body: JSON.stringify({ content: newUser })
     })
       .then(response => response.json())
-      .then(() => {
+      .then(data => {
         loadUsers(document.querySelector('table'));
         modal.close();
+        showPopup(data.message, data.status)
+        document.getElementById('username-input').value = "";
+        document.getElementById('name-input').value = "";
+        document.getElementById('email-input').value = "";
+        document.getElementById('password-input').value = "";
       })
       .catch(error => alert('Error creating your account:' + error))
 
@@ -588,10 +593,9 @@ function validateUser(email){
   let valid;
   const regex = /\S+@\S+\.\S+/;
   if(regex.test(email)){
-    alert('Email valid. Verificare reușită.');
     valid = true; 
   } else{
-    alert('Email invalid. Te rugăm să încerci din nou.')
+    showPopup('Invalid email. Please try again!','error')
     valid = false;
   }
   return valid;
@@ -615,8 +619,19 @@ function createProperty(name, address, type, priority){
       body: JSON.stringify({ content: newProperty })
     })
       .then(response => response.json())
-      .then(() => {
-        loadPortfolio();
+      .then(data => {
+        if(data.status === "success"){
+          showPopup(data.message, data.status);
+          loadPortfolio();
+          propertyNameInput.value = "";
+          addressInput.value = "";
+          propertyTypeInput.value = "";
+          Propertymodal.close();
+        }else{
+          showPopup(data.message, data.status);
+        }
+        
+       
       })
       .catch(error => alert('Error creating your account:' + error))
 
@@ -642,10 +657,19 @@ function createRequest(subject,description, priority, status){
       body: JSON.stringify({ content: newRequest })
       })
       .then(response => response.json())
-      .then(() => {
-        loadRequests();
+      .then(data => {
+        if(data.status === 'success'){
+          showPopup(data.message, data.status);
+          loadRequests();
+          ticketSubject.value = "";
+          ticketDescription.value = "";
+          document.getElementById('tickets-modal').close();
+        } else{
+          showPopup(data.message, data.status);
+        }
+        
       })
-      .catch(error => alert('Error creating your account:' + error))
+      .catch(error => alert('Error creating your request:' + error))
 
 }
 
@@ -675,8 +699,15 @@ function editRequest(subject, description, priority, status,id){
       body: JSON.stringify({ content: editRequest })
       })
       .then(response => response.json())
-      .then(() => {
-        loadRequests();
+      .then(data => {
+        if(data.status === "success"){
+          showPopup(data.message, data.status);
+          loadRequests();
+          document.getElementById('edit-modal').close();
+        }else{
+          showPopup(data.message, data.status);
+        }
+       
       })
       .catch(error => alert('Error creating your account:' + error))
 
@@ -693,7 +724,9 @@ function deleteRequest(button){
       body: JSON.stringify({ content: id })
       })
       .then(response => response.json())
-      .then(() => {
+      .then(data => {
+        showPopup(data.message, data.status)
+        document.getElementById('edit-modal').close();
         loadRequests();
       })
       .catch(error => alert('Error creating your account:' + error))
@@ -717,3 +750,29 @@ function solveTask(button){
       .catch(error => alert('Error creating your account:' + error))
 }
 
+function showPopup(message, status) {
+  const container = document.getElementById("popupContainer");
+
+  // Create a new popup element
+  const popup = document.createElement("div");
+  popup.classList.add("popupMessage");
+  popup.textContent = message;
+  popup.classList.add(status)
+
+  container.appendChild(popup);
+
+  // Show animation
+  setTimeout(() => popup.classList.add("show"), 10);
+
+  // Auto-remove after 5s
+  setTimeout(() => {
+    popup.classList.remove("show");
+    setTimeout(() => popup.remove(), 300);
+  }, 8000);
+
+  // Keep only last 6 visible popups
+  const popups = container.querySelectorAll(".popupMessage");
+  if (popups.length > 6) {
+    popups[0].remove();
+  }
+}

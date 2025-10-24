@@ -18,7 +18,7 @@ app.post("/createUser", (req, res) => {
   const content = req.body.content;
 
   if (!content || !content.name || !content.user || !content.email || !content.password || !content.id) {
-    return res.status(400).json({ message: "Error: Missing required fields." });
+    return res.status(400).json({ message: "Error: Missing required fields." , status: "error"});
   }
 
   const fileName = `users.txt`;
@@ -33,7 +33,7 @@ app.post("/createUser", (req, res) => {
         users = [];
       }
     } catch (err) {
-      return res.status(500).json({ message: "Error reading existing users." });
+      return res.status(500).json({ message: "Error reading existing users.", status: "error"});
     }
   }
 
@@ -53,7 +53,7 @@ app.post("/createUser", (req, res) => {
   const userFolderPath = path.join(folderPath, newUser.user);
   fs.mkdirSync(userFolderPath);
 
-  res.json({ message: `User created successfully!` });
+  res.json({ message: `User created successfully!`, status: "success" });
 });
 
 
@@ -142,7 +142,7 @@ app.post("/createProperty/:username", (req, res) => {
   const filePath = path.join(folderPath, username, "portfolio.txt");
 
   if (!content || !content.name || !content.address || !content.type || !content.priority) {
-    return res.status(400).json({ message: "Error: Missing required fields." });
+    return res.status(400).json({ message: "Error: Missing required fields." , status: "error"});
   }
 
   let portfolio = { username, properties: [] };
@@ -176,7 +176,7 @@ app.post("/createProperty/:username", (req, res) => {
     fs.mkdirSync(propertyFolderPath);
   }
 
-  res.json({ message: `Property created successfully!` });
+  res.json({ message: `Property created successfully!`, status: "success" });
 });
 
 app.post("/createRequest/:username/:name", (req, res) => {
@@ -186,7 +186,7 @@ app.post("/createRequest/:username/:name", (req, res) => {
   const filePath = path.join(folderPath, username, name, "requests.txt");
 
   if (!content || !content.name || !content.address || !content.description || !content.priority || !content.status) {
-    return res.status(400).json({ message: "Error: Missing required fields." });
+    return res.status(400).json({ message: "Error: Missing required fields.", status: 'error'});
   }
 
   let requests = [];
@@ -217,7 +217,7 @@ app.post("/createRequest/:username/:name", (req, res) => {
 
   fs.writeFileSync(filePath, JSON.stringify(requests, null, 2));
 
-  res.json({ message: `Request created successfully!` });
+  res.json({ message: `Request created successfully!`, status: "success" });
 });
 
 app.put("/editRequest/:username/:name", (req, res) => {
@@ -228,7 +228,7 @@ app.put("/editRequest/:username/:name", (req, res) => {
   const filePath = path.join(folderPath, username, name, "requests.txt");
 
   if (!content || !content.subject || !content.description || !content.priority || !content.status) {
-    return res.status(400).json({ message: "Error: Missing required fields." });
+    return res.status(400).json({ message: "Error: Missing required fields.", status: "error" });
   }
 
   let requests = [];
@@ -259,7 +259,7 @@ app.put("/editRequest/:username/:name", (req, res) => {
 
   fs.writeFileSync(filePath, JSON.stringify(requests, null, 2));
 
-  res.json({ message: `Request updated successfully!` });
+  res.json({ message: `Request updated successfully!`,status: "success"  });
 });
 
 app.delete("/deleteTask/:username/:name", (req, res) => {
@@ -278,7 +278,7 @@ app.delete("/deleteTask/:username/:name", (req, res) => {
         requests = [];
       }
     } catch (err) {
-      return res.status(500).json({ message: "Error reading existing requests." });
+      return res.status(500).json({ message: "Error reading existing requests."});
     }
   }
 
@@ -287,7 +287,7 @@ app.delete("/deleteTask/:username/:name", (req, res) => {
 
   fs.writeFileSync(filePath, JSON.stringify(requests, null, 2));
 
-  res.json({ message: `Request deleted successfully!` });
+  res.json({ message: `Request deleted successfully!`, status:"success"  });
 });
 
 app.put("/solveTask/:username/:name", (req, res) => {
@@ -320,7 +320,7 @@ app.put("/solveTask/:username/:name", (req, res) => {
 
   fs.writeFileSync(filePath, JSON.stringify(requests, null, 2));
 
-  res.json({ message: `Request deleted successfully!` });
+  res.json({ message: `Request checked successfully!` });
 });
 
 app.get("/loadRequests/:username/:property", (req, res) => {
