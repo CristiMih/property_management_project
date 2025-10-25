@@ -1,0 +1,20 @@
+[
+  {
+    "subject": "Cracked Foundation",
+    "name": "Harborview Offices",
+    "address": "12 Pier Street, Seattle, WA 98101",
+    "description": "Visible cracks in the foundation walls, possibly affecting structural integrity.",
+    "priority": "high",
+    "status": "unsolved",
+    "id": "af5fcbbb"
+  },
+  {
+    "subject": "Leaking Faucets",
+    "name": "Harborview Offices",
+    "address": "12 Pier Street, Seattle, WA 98101",
+    "description": "Multiple faucets in the property are dripping continuously, wasting water.",
+    "priority": "low",
+    "status": "unsolved",
+    "id": "5cb78ac8"
+  }
+]

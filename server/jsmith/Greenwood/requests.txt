@@ -1,0 +1,38 @@
+[
+  {
+    "subject": "Water Leakage",
+    "name": "Greenwood Villa",
+    "address": "24 Elm Street, Springfield, IL 62704",
+    "description": "Persistent water leakage in the basement during heavy rain.",
+    "priority": "high",
+    "status": "unsolved",
+    "id": "a449e531"
+  },
+  {
+    "subject": "Heating System Failure",
+    "name": "Greenwood Villa",
+    "address": "24 Elm Street, Springfield, IL 62704",
+    "description": "Central heating not functioning in colder rooms.",
+    "priority": "high",
+    "status": "unsolved",
+    "id": "0304d7e9"
+  },
+  {
+    "subject": "Roof Damage",
+    "name": "Greenwood Villa",
+    "address": "24 Elm Street, Springfield, IL 62704",
+    "description": "Tiles missing after recent storm, causing potential leaks.",
+    "priority": "medium",
+    "status": "unsolved",
+    "id": "e456360b"
+  },
+  {
+    "subject": "Electrical Issues",
+    "name": "Greenwood Villa",
+    "address": "24 Elm Street, Springfield, IL 62704",
+    "description": "Frequent power outages in the kitchen area.",
+    "priority": "low",
+    "status": "unsolved",
+    "id": "d2e1506d"
+  }
+]

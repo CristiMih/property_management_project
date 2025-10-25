@@ -82,34 +82,6 @@ function loadLoginHTML(){
     noAccLink.textContent = 'Sign up';
 
     const imgDiv = document.getElementById('img-div');
-    // imgDiv.innerHTML = "";
-    // const testimonial = document.createElement('div');
-    // imgDiv.appendChild(testimonial);
-    // testimonial.classList.add('testimonial');
-
-    // const quote = document.createElement('p')
-    // testimonial.appendChild(quote);
-    // quote.classList.add('quote');
-    // quote.textContent = '"Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam velit ipsam corrupti, commodi earum modi aliquid architecto voluptate nisi eveniet eius tenetur quasi aperiam facere quas qui, ipsa id quod?"';
-
-    // const author = document.createElement('p')
-    // testimonial.appendChild(author);
-    // author.classList.add('author');
-    // author.textContent = 'Lorem, ipsum.';
-
-    // const carouselDiv = document.createElement('div');
-    // testimonial.appendChild(carouselDiv);
-    // carouselDiv.classList.add('carousel-div')
-
-    // const carouselBtn1 = document.createElement('button');
-    // carouselBtn1.setAttribute('data-index', "0");
-    // const carouselBtn2 = document.createElement('button');
-    // carouselBtn2.setAttribute('data-index', "1");
-    // const carouselBtn3 = document.createElement('button');
-    // carouselBtn3.setAttribute('data-index', "2");
-    // carouselDiv.appendChild(carouselBtn1);
-    // carouselDiv.appendChild(carouselBtn2);
-    // carouselDiv.appendChild(carouselBtn3);
 
      const bgImg = document.getElementById('bg-img');
     // imgDiv.appendChild(bgImg);
@@ -322,7 +294,6 @@ function logIn(username, password){
 function showPopup(message, status) {
   const container = document.getElementById("popupContainer");
 
-  // Create a new popup element
   const popup = document.createElement("div");
   popup.classList.add("popupMessage");
   popup.textContent = message;
@@ -330,16 +301,13 @@ function showPopup(message, status) {
 
   container.appendChild(popup);
 
-  // Show animation
   setTimeout(() => popup.classList.add("show"), 10);
 
-  // Auto-remove after 5s
   setTimeout(() => {
     popup.classList.remove("show");
     setTimeout(() => popup.remove(), 300);
   }, 8000);
 
-  // Keep only last 6 visible popups
   const popups = container.querySelectorAll(".popupMessage");
   if (popups.length > 6) {
     popups[0].remove();

@@ -8,11 +8,19 @@
     "id": "91019f50"
   },
   {
-    "name": "test",
-    "user": "test",
-    "email": "test@test.com",
-    "password": "test",
+    "name": "John Smith",
+    "user": "jsmith",
+    "email": "john.smith@example.com",
+    "password": "john123",
     "admin": false,
-    "id": "8128b34e"
+    "id": "e38f6c7c"
+  },
+  {
+    "name": "ejohnson",
+    "user": "Emily Johnson",
+    "email": "emily.johnson@example.com",
+    "password": "emily456",
+    "admin": false,
+    "id": "527ec2e0"
   }
 ]

@@ -1,0 +1,23 @@
+{
+  "username": "Emily Johnson",
+  "properties": [
+    {
+      "name": "Maplewood Estate",
+      "address": "310 Maple Lane, Denver, CO 80203",
+      "type": "Residential",
+      "priority": "low"
+    },
+    {
+      "name": "Harborview Offices",
+      "address": "12 Pier Street, Seattle, WA 98101",
+      "type": "Commercial",
+      "priority": "medium"
+    },
+    {
+      "name": "Mountain Escape Lodge",
+      "address": "789 Alpine Road, Aspen, CO 81611",
+      "type": "Vacation",
+      "priority": "high"
+    }
+  ]
+}

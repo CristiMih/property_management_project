@@ -1,0 +1,29 @@
+[
+  {
+    "subject": "Broken Fence",
+    "name": "Maplewood Estate",
+    "address": "310 Maple Lane, Denver, CO 80203",
+    "description": "The backyard fence is damaged and poses a security risk.",
+    "priority": "high",
+    "status": "unsolved",
+    "id": "b42ee99e"
+  },
+  {
+    "subject": "Lighting Malfunction",
+    "name": "Maplewood Estate",
+    "address": "310 Maple Lane, Denver, CO 80203",
+    "description": "Outdoor lights are not turning on automatically at night.",
+    "priority": "low",
+    "status": "unsolved",
+    "id": "58ac47be"
+  },
+  {
+    "subject": "Unstable Staircase",
+    "name": "Maplewood Estate",
+    "address": "310 Maple Lane, Denver, CO 80203",
+    "description": "Wooden staircase creaks loudly and feels unstable when used.",
+    "priority": "low",
+    "status": "unsolved",
+    "id": "db589ada"
+  }
+]

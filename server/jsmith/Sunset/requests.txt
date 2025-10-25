@@ -1,0 +1,20 @@
+[
+  {
+    "subject": "Clogged Drainage",
+    "name": "Sunset Retreat",
+    "address": "102 Beachside Avenue, Santa Monica, CA 90401",
+    "description": "Water backing up in the backyard due to blocked drains.",
+    "priority": "low",
+    "status": "unsolved",
+    "id": "3f43a8a7"
+  },
+  {
+    "subject": "Mold Growth",
+    "name": "Sunset Retreat",
+    "address": "102 Beachside Avenue, Santa Monica, CA 90401",
+    "description": "Visible mold on bathroom ceiling and walls.",
+    "priority": "medium",
+    "status": "unsolved",
+    "id": "957a3127"
+  }
+]

@@ -24,7 +24,6 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 500px;
-  /* padding-bottom: 275px; */
   max-width: 382px;
 }
 

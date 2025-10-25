@@ -2,8 +2,18 @@ let currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
 let currentPortfolio = JSON.parse(sessionStorage.getItem("currentPortfolio"));
 let currentRequests;
 let currentProperty;
-
-console.log(currentUser.email);
+const submitBtn = document.getElementById('user-submit-modal');
+const userInput = document.getElementById('username-input');
+const nameInput = document.getElementById('name-input');
+const emailInput = document.getElementById('email-input');
+const passInput = document.getElementById('password-input');
+const modal = document.getElementById('user-modal');
+const propertyNameInput = document.getElementById('property-name');
+const addressInput = document.getElementById('property-address');
+const propertyTypeInput = document.getElementById('property-type');
+const propertyPriorityInput = document.getElementById('priority');
+const Propertymodal = document.getElementById('property-modal');
+const submitPropertyBtn = document.getElementById('property-submit-modal');
 
 //Incarca interfata pe load
 window.onload = function() {
@@ -13,32 +23,11 @@ window.onload = function() {
     generatePortfolioUI(currentUser.admin);
   }
 };
-
-
 loadUserData();
-//add event listeners pe modale
-const submitBtn = document.getElementById('user-submit-modal');
-const userInput = document.getElementById('username-input');
-const nameInput = document.getElementById('name-input');
-const emailInput = document.getElementById('email-input');
-const passInput = document.getElementById('password-input');
-const modal = document.getElementById('user-modal');
 
 submitBtn.addEventListener('click', () => {
   createUser(nameInput.value, userInput.value, emailInput.value, passInput.value, modal);
-  // nameInput.value = "";
-  // userInput.value = "";
-  // emailInput.value = "";
-  // passInput.value = "";
 });
-
-
-const propertyNameInput = document.getElementById('property-name');
-const addressInput = document.getElementById('property-address');
-const propertyTypeInput = document.getElementById('property-type');
-const propertyPriorityInput = document.getElementById('priority');
-const Propertymodal = document.getElementById('property-modal');
-const submitPropertyBtn = document.getElementById('property-submit-modal');
 
 submitPropertyBtn.addEventListener('click', () =>{
   createProperty(propertyNameInput.value, addressInput.value, propertyTypeInput.value, propertyPriorityInput.value)
@@ -118,9 +107,6 @@ function generateUsersUI(){
   
 
   loadUsers(table);
-  // generateUsers(table, "jdoe", "John Doe", "jdoe@example.com", "pass1234");
-  // generateUsers(table, "amaria", "Ana Maria Popescu", "	ana.maria@email.com", "securePass");
-
 }
 
 //Functia care genereaza interfata la logIn pentru utilizator
@@ -371,13 +357,7 @@ function generateProperty(parent, propertyName, adress, type, priority){
   actionTd.appendChild(requestbutton);
   requestbutton.setAttribute("data-property", propertyName.split(" ")[0]);
   requestbutton.textContent = "Tickets";
-  // if(admin){
-  //   const editbutton = document.createElement('button');
-  //   actionTd.appendChild(editbutton);
-  //    editbutton.textContent = "Edit";
-  // }
  
-
   requestbutton.addEventListener('click', () => loadRequests(requestbutton));
   requestbutton.addEventListener('click', () => {currentProperty = {
     name: propertyName,
@@ -436,9 +416,6 @@ function generateRequests(parent, subject, propertyName, adress, description, pr
   const statusTd = document.createElement('td');
   tr.appendChild(statusTd);
   statusTd.textContent = status.charAt(0).toUpperCase() + status.slice(1);
-  // if(statusTd.textContent === "Solved"){
-  //   tr.style.backgroundColor = "#f3fbf6";
-  // }
 
   const actionTd = document.createElement('td');
   tr.appendChild(actionTd);
